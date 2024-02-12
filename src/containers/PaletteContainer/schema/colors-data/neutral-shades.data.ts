@@ -92,7 +92,7 @@ export const neutralShadesFrom = (tokens: StringIndex) => [
   },
   {
     name: "Surf. Cntr. Lowest",
-    tokenPath: "md-sys-light-surface-lowest",
+    tokenPath: "md-sys-light-surface-container-lowest",
     bgColor: nl.get(tokens, "colors.md.sys.light.surface-container-lowest"),
     textColor: nl.get(tokens, "colors.md.ref.pal.neutral900"),
     colorHash: nl.get(tokens, "colors.md.sys.light.surface-container-lowest"),

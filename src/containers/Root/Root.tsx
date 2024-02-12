@@ -8,7 +8,7 @@ import { Layout } from "./components/Layout.tsx";
 import { ClipboardContextProvider } from "src/contexts/ClipboardContext.tsx";
 import { FileContextProvider } from "src/contexts/FileContext.tsx";
 
-const ConvertorPage = lazy(() => import("src/pages/Explorer/ExplorerPage.tsx"));
+const GeneratorPage = lazy(() => import("src/pages/Generator/GeneratorPage.tsx"));
 
 const router = createBrowserRouter([
   {
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <ConvertorPage />,
+        element: <GeneratorPage />,
       },
     ],
   },

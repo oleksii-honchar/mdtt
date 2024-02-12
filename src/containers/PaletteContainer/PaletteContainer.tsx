@@ -56,7 +56,7 @@ export default function PaletteContainer() {
       id="PaletteContainer"
       className={`
           w-full max-w-3xl md:max-w-4xl lg:max-w-6xl
-          px-2 flex flex-col flex-grow
+          p-2 flex flex-col flex-grow
         `}
     >
       {!nl.isObjectEmpty(mdTokens) && <Palette mdTokens={mdTokens} />}

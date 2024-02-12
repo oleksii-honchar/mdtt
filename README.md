@@ -1,6 +1,6 @@
 # mdtt
 
-Material Design Tailwind Theme generator
+Material Design TailwindCSS Theme generator
 
 ## How to run locally
 
