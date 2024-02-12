@@ -1,0 +1,24 @@
+{
+  "extends": "./tsconfig.base.json",
+  "baseUrl": "./",
+  "ts-node": {
+    "esm": true,
+    "transpileOnly": true
+  },
+  "compilerOptions": {
+    "baseUrl": "./",
+    "lib": [ "DOM", "esnext"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "paths": {
+      "src/*": [ "../src/*" ],
+      "scripts/*": [ "../scripts/*" ],
+      "blablo": ["../scripts/blablo.ts"],
+      "package.json": ["../package.json"]
+    },
+    "target": "esnext"
+  },
+  "include": [
+    "./**/*"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "extends": "./.configs/tsconfig.es2022.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "./node_modules",
+    "./.configs",
+    "./dist",
+    "./docs",
+    "./coverage",
+    "./.devops"
+  ]
+}
