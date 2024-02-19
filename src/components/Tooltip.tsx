@@ -1,3 +1,4 @@
+import { LoggerService } from "@ciklum/logan";
 import type { Placement } from "@floating-ui/react";
 import {
   FloatingArrow,
@@ -6,7 +7,9 @@ import {
   autoPlacement,
   autoUpdate,
   offset,
+  safePolygon,
   shift,
+  useClick,
   useDismiss,
   useFloating,
   useFocus,
@@ -19,11 +22,16 @@ import {
 import * as React from "react";
 import { useRef } from "react";
 
+const logger = new LoggerService();
+logger.setTitle("Tooltip");
+
 interface TooltipOptions {
   initialOpen?: boolean;
   placement?: Placement;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  enableHandleClose?: boolean;
+  debug?: boolean;
 }
 
 export function useTooltip({
@@ -31,11 +39,15 @@ export function useTooltip({
   placement = "top",
   open: controlledOpen,
   onOpenChange: setControlledOpen,
+  enableHandleClose = false,
+  debug = false,
 }: TooltipOptions = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
 
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = setControlledOpen ?? setUncontrolledOpen;
+
+  debug && console.log(`open=${open}, disableHover=${disableHover}`);
 
   const ARROW_HEIGHT = 7;
   const GAP = 2;
@@ -62,9 +74,16 @@ export function useTooltip({
 
   const context = data.context;
 
+  const click = useClick(context);
   const hover = useHover(context, {
     move: false,
     enabled: controlledOpen == null,
+    handleClose:
+      (enableHandleClose &&
+        safePolygon({
+          requireIntent: false,
+        })) ||
+      null,
   });
   const focus = useFocus(context, {
     enabled: controlledOpen == null,
@@ -72,7 +91,7 @@ export function useTooltip({
   const dismiss = useDismiss(context);
   const role = useRole(context, { role: "tooltip" });
 
-  const interactions = useInteractions([hover, focus, dismiss, role]);
+  const interactions = useInteractions([hover, focus, dismiss, role, click]);
 
   const { isMounted, styles } = useTransitionStyles(context, {
     initial: {

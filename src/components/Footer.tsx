@@ -14,7 +14,8 @@ export function Footer() {
         <div
           className={`
           relative
-          mx-auto w-full max-w-2xl md:max-w-3xl lg:max-w-5xl justify-center  flex h-full px-2
+          mx-auto w-full max-w-3xl md:max-w-4xl lg:max-w-6xl 
+          justify-center  flex h-full px-2
           text-md-sys-on-background text-sm
         `}
         >
