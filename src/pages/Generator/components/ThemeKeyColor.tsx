@@ -10,10 +10,11 @@ import type { StringIndex } from "src/typings/index.d.ts";
 
 export default function ThemeKeyColor({ name, colorHash }: StringIndex) {
   const [color, setColor] = useState(colorHash);
+  const [newColor, setNewColor] = useState(color);
   const { open, setOpen } = useTooltip();
 
   const style = css`
-    background-color: ${colorHash};
+    background-color: ${color};
   `;
 
   const commonCss = `
@@ -25,7 +26,7 @@ export default function ThemeKeyColor({ name, colorHash }: StringIndex) {
   `;
 
   return (
-    <Tooltip enableHandleClose open={true}>
+    <Tooltip enableHandleClose>
       <TooltipTrigger
         data-id="ThemeKeyColor"
         className={`
@@ -34,7 +35,6 @@ export default function ThemeKeyColor({ name, colorHash }: StringIndex) {
           rounded-lg mx-2 p-2
         `}
         onClick={() => {
-          console.log(open);
           setOpen(!open);
         }}
       >
@@ -52,13 +52,35 @@ export default function ThemeKeyColor({ name, colorHash }: StringIndex) {
         className={`
           flex flex-col justify-center items-center
           Tooltip
+          shadow-md
+          bg-md-sys-light-background
         `}
       >
-        <HexColorPicker color={color} onChange={setColor} />
-        <div className="w-full h-12 flex flex-row justify-between items-center">
-          <HexColorInput className="w-16 text-center rounded-md" color={color} onChange={setColor} />
+        <HexColorPicker color={newColor} onChange={setNewColor} />
+        <div className="w-full h-10 flex flex-row justify-between items-end">
+          <div className="flex flex-row">
+            <div className="flex rounded-l-md h-8 w-5 items-center justify-end bg-md-sys-light-background">
+              <div
+                css={css`
+                  background-color: ${newColor};
+                `}
+                className="rounded-sm h-4 w-4"
+              >
+                &nbsp;
+              </div>
+            </div>
+            <HexColorInput
+              className="w-16 h-8 text-center rounded-r-md block"
+              color={newColor}
+              onChange={setNewColor}
+            />
+          </div>
           <button
-            className={classNames(commonCss, `border  rounded-lg w-18 flex flex-row justify-center items-center`)}
+            className={classNames(commonCss, `h-8 border  rounded-lg w-18 flex flex-row justify-center items-center`)}
+            onClick={() => {
+              setColor(newColor);
+              setOpen(false);
+            }}
           >
             <FaMagic />
             &nbsp; Select

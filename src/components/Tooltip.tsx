@@ -47,7 +47,7 @@ export function useTooltip({
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = setControlledOpen ?? setUncontrolledOpen;
 
-  debug && console.log(`open=${open}, disableHover=${disableHover}`);
+  debug && console.log(`open=${open}`);
 
   const ARROW_HEIGHT = 7;
   const GAP = 2;
@@ -193,6 +193,7 @@ export const TooltipContent = React.forwardRef<HTMLDivElement, React.HTMLProps<H
     <FloatingPortal>
       {context.transition.isMounted && (
         <div
+          data-id="tooltip"
           ref={ref}
           style={{
             ...style,
