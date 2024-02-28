@@ -1,3 +1,11 @@
+import {
+  errorCoreColorAtom,
+  neutralCoreColorAtom,
+  neutralVariantCoreColorAtom,
+  primaryCoreColorAtom,
+  secondaryCoreColorAtom,
+  tertiraryCoreColorAtom,
+} from "src/state/atoms";
 import ThemeKeyColor from "./ThemeKeyColor";
 import ToolbetlBtnGroup from "./ToolbetlBtnGroup";
 
@@ -18,12 +26,12 @@ export default function Toolbelt() {
         `}
       >
         Main colors
-        <ThemeKeyColor name="primary" colorHash="#23B7DC" />
-        <ThemeKeyColor name="secondary" colorHash="#B7DC23" />
-        <ThemeKeyColor name="tertiary" colorHash="#B7DC23" />
-        <ThemeKeyColor name="error" colorHash="#BA1A1A" />
-        <ThemeKeyColor name="neutral" colorHash="#A8A29E" />
-        <ThemeKeyColor name="n. variant" colorHash="#E5E7EB" />
+        <ThemeKeyColor name="primary" colorAtom={primaryCoreColorAtom} />
+        <ThemeKeyColor name="secondary" colorAtom={secondaryCoreColorAtom} />
+        <ThemeKeyColor name="tertiary" colorAtom={tertiraryCoreColorAtom} />
+        <ThemeKeyColor name="error" colorAtom={errorCoreColorAtom} />
+        <ThemeKeyColor name="neutral" colorAtom={neutralCoreColorAtom} />
+        <ThemeKeyColor name="n. variant" colorAtom={neutralVariantCoreColorAtom} />
       </div>
       <ToolbetlBtnGroup />
     </div>

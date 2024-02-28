@@ -1,17 +1,29 @@
+import { LoggerService } from "@ciklum/logan";
 import { css } from "@emotion/react";
+import { Atom, useAtom } from "jotai";
 import { HexColorInput, HexColorPicker } from "powerful-color-picker";
 import { useState } from "react";
-import { FaMagic } from "react-icons/fa";
+import { FaRegThumbsUp, FaRegTrashCan } from "react-icons/fa6";
 import { classNames } from "src/utils/classNames";
 
 import { Tooltip, TooltipContent, TooltipTrigger, useTooltip } from "src/components/Tooltip.tsx";
 
-import type { StringIndex } from "src/typings/index.d.ts";
+const logger = new LoggerService();
+logger.setTitle("ThemeKeyColor");
 
-export default function ThemeKeyColor({ name, colorHash }: StringIndex) {
-  const [color, setColor] = useState(colorHash);
+interface ThemeKeyColorParams {
+  name: string;
+  colorAtom: Atom<string>;
+}
+
+export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) {
+  const [color, setColor] = useAtom(colorAtom);
   const [newColor, setNewColor] = useState(color);
   const { open, setOpen } = useTooltip();
+  const resetColor = () => {
+    setNewColor("#fff");
+    setColor("#fff");
+  };
 
   const style = css`
     background-color: ${color};
@@ -58,6 +70,7 @@ export default function ThemeKeyColor({ name, colorHash }: StringIndex) {
       >
         <HexColorPicker color={newColor} onChange={setNewColor} />
         <div className="w-full h-10 flex flex-row justify-between items-end">
+          {/* Color preview */}
           <div className="flex flex-row">
             <div className="flex rounded-l-md h-8 w-5 items-center justify-end bg-md-sys-light-background">
               <div
@@ -75,16 +88,34 @@ export default function ThemeKeyColor({ name, colorHash }: StringIndex) {
               onChange={setNewColor}
             />
           </div>
-          <button
-            className={classNames(commonCss, `h-8 border  rounded-lg w-18 flex flex-row justify-center items-center`)}
-            onClick={() => {
-              setColor(newColor);
-              setOpen(false);
-            }}
-          >
-            <FaMagic />
-            &nbsp; Select
-          </button>
+
+          {/* Action buttons */}
+          <div className="inline-flex items-center rounded-md shadow-sm">
+            <button
+              className={classNames(
+                commonCss,
+                `h-8 border border-r-0 rounded-l-lg w-18 flex flex-row justify-center items-center`,
+              )}
+              onClick={() => {
+                setColor(newColor);
+                logger.info(newColor);
+              }}
+            >
+              <FaRegThumbsUp />
+            </button>
+            <button
+              className={classNames(
+                commonCss,
+                `h-8 border  rounded-r-lg w-18 flex flex-row justify-center items-center`,
+              )}
+              onClick={() => {
+                resetColor();
+                logger.info("color reset");
+              }}
+            >
+              <FaRegTrashCan />
+            </button>
+          </div>
         </div>
       </TooltipContent>
     </Tooltip>
