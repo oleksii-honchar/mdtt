@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
-const initialColor = "#ffffff";
+const initialColor = ""; //empty
 
 export const primaryCoreColorAtom = atomWithStorage<string>("primaryCoreColor", initialColor);
 export const secondaryCoreColorAtom = atomWithStorage<string>("secondaryCoreColor", initialColor);

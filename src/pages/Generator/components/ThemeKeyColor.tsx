@@ -2,8 +2,10 @@ import { LoggerService } from "@ciklum/logan";
 import { css } from "@emotion/react";
 import { Atom, useAtom } from "jotai";
 import { HexColorInput, HexColorPicker } from "powerful-color-picker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegThumbsUp, FaRegTrashCan } from "react-icons/fa6";
+import { MdNotInterested } from "react-icons/md";
+
 import { classNames } from "src/utils/classNames";
 
 import { Tooltip, TooltipContent, TooltipTrigger, useTooltip } from "src/components/Tooltip.tsx";
@@ -17,13 +19,20 @@ interface ThemeKeyColorParams {
 }
 
 export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) {
-  const [color, setColor] = useAtom(colorAtom);
-  const [newColor, setNewColor] = useState(color);
+  const [color, setColor]: [string, (value: string) => void] = useAtom(colorAtom);
+  const [newColor, setNewColor] = useState<string>(color);
   const { open, setOpen } = useTooltip();
+
+  const NoColor = () => <MdNotInterested className="text-md-sys-light-primary" />;
+
   const resetColor = () => {
-    setNewColor("#fff");
-    setColor("#fff");
+    setNewColor("");
+    setColor("");
   };
+
+  useEffect(() => {
+    setNewColor(color);
+  }, [color]);
 
   const style = css`
     background-color: ${color};
@@ -54,17 +63,19 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
           css={style}
           className={`
           w-6 h-6 mr-2
-          rounded-md
+          rounded-md justify-center items-center flex flex-col
           cursor-pointer
         `}
-        ></div>
+        >
+          {!newColor && <NoColor />}
+        </div>
         {name}
       </TooltipTrigger>
       <TooltipContent
         className={`
           flex flex-col justify-center items-center
           Tooltip
-          shadow-md
+          shadow-md rounded-lg p-4
           bg-md-sys-light-background
         `}
       >
@@ -73,18 +84,23 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
           {/* Color preview */}
           <div className="flex flex-row">
             <div className="flex rounded-l-md h-8 w-5 items-center justify-end bg-md-sys-light-background">
-              <div
-                css={css`
-                  background-color: ${newColor};
-                `}
-                className="rounded-sm h-4 w-4"
-              >
-                &nbsp;
-              </div>
+              {/* Color preview */}
+              {!newColor ? (
+                <NoColor />
+              ) : (
+                <div
+                  css={css`
+                    background-color: ${newColor};
+                  `}
+                  className="rounded-sm h-4 w-4"
+                >
+                  &nbsp;
+                </div>
+              )}
             </div>
             <HexColorInput
               className="w-16 h-8 text-center rounded-r-md block"
-              color={newColor}
+              color={newColor || "00000"}
               onChange={setNewColor}
             />
           </div>
