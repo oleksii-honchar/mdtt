@@ -3,7 +3,8 @@ import { css } from "@emotion/react";
 import { Atom, useAtom } from "jotai";
 import { HexColorInput, HexColorPicker } from "powerful-color-picker";
 import { useEffect, useState } from "react";
-import { FaRegThumbsUp, FaRegTrashCan } from "react-icons/fa6";
+import { FaCheck } from "react-icons/fa";
+import { FaRegTrashCan } from "react-icons/fa6";
 import { MdNotInterested } from "react-icons/md";
 
 import { classNames } from "src/utils/classNames";
@@ -19,23 +20,23 @@ interface ThemeKeyColorParams {
 }
 
 export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) {
-  const [color, setColor]: [string, (value: string) => void] = useAtom(colorAtom);
-  const [newColor, setNewColor] = useState<string>(color);
+  const [themeColor, setThemeColor]: [string, (value: string) => void] = useAtom(colorAtom);
+  const [colorPickerColor, setColorPickerColor] = useState<string>(themeColor);
   const { open, setOpen } = useTooltip();
 
   const NoColor = () => <MdNotInterested className="text-md-sys-light-primary" />;
 
   const resetColor = () => {
-    setNewColor("");
-    setColor("");
+    setColorPickerColor("");
+    setThemeColor("");
   };
 
   useEffect(() => {
-    setNewColor(color);
-  }, [color]);
+    setColorPickerColor(themeColor);
+  }, [themeColor]);
 
   const style = css`
-    background-color: ${color};
+    background-color: ${themeColor};
   `;
 
   const commonCss = `
@@ -48,6 +49,7 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
 
   return (
     <Tooltip enableHandleClose>
+      {/* Color & it's name */}
       <TooltipTrigger
         data-id="ThemeKeyColor"
         className={`
@@ -67,7 +69,7 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
           cursor-pointer
         `}
         >
-          {!newColor && <NoColor />}
+          {!themeColor && <NoColor />}
         </div>
         {name}
       </TooltipTrigger>
@@ -79,18 +81,18 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
           bg-md-sys-light-background
         `}
       >
-        <HexColorPicker color={newColor} onChange={setNewColor} />
+        <HexColorPicker color={colorPickerColor} onChange={setColorPickerColor} />
         <div className="w-full h-10 flex flex-row justify-between items-end">
           {/* Color preview */}
           <div className="flex flex-row">
             <div className="flex rounded-l-md h-8 w-5 items-center justify-end bg-md-sys-light-background">
               {/* Color preview */}
-              {!newColor ? (
+              {!colorPickerColor ? (
                 <NoColor />
               ) : (
                 <div
                   css={css`
-                    background-color: ${newColor};
+                    background-color: ${colorPickerColor};
                   `}
                   className="rounded-sm h-4 w-4"
                 >
@@ -100,8 +102,8 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
             </div>
             <HexColorInput
               className="w-16 h-8 text-center rounded-r-md block"
-              color={newColor || "00000"}
-              onChange={setNewColor}
+              color={colorPickerColor || "00000"}
+              onChange={setColorPickerColor}
             />
           </div>
 
@@ -113,11 +115,11 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
                 `h-8 border border-r-0 rounded-l-lg w-18 flex flex-row justify-center items-center`,
               )}
               onClick={() => {
-                setColor(newColor);
-                logger.info(newColor);
+                setThemeColor(colorPickerColor);
+                logger.info(colorPickerColor);
               }}
             >
-              <FaRegThumbsUp />
+              <FaCheck />
             </button>
             <button
               className={classNames(

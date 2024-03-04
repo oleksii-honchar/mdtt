@@ -1,17 +1,20 @@
 import { LoggerService } from "@ciklum/logan";
 import joi from "joi";
+import { useAtomValue } from "jotai";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import type { StringIndex } from "src/typings/index.d.ts";
 
-import { nl } from "src/utils/native-lodash.ts";
+import { AnyObject, nl } from "src/utils/native-lodash.ts";
 
-import { useContext, useEffect, useState } from "react";
 import { FileContext } from "src/contexts/FileContext.tsx";
+import { mdTailwindThemeSchema } from "src/theme/mdTailwindThemeSchema.ts";
 import Palette from "./components/Palette.tsx";
 import PalettePlaceholder from "./components/PalettePlaceholder.tsx";
-import { mdTokensSchema } from "./schema/mdTokensSchema.ts";
 
-import * as themeJson from "src/stylesheets/mdpal-design-tokens-v1.ts";
+import { useDebouncedEffect } from "src/hooks/useDebouncedEffect.ts";
+
+import { themeAtom } from "src/state/atoms.ts";
 
 const logger = new LoggerService();
 logger.setTitle("PaletteContainer");
@@ -19,27 +22,22 @@ logger.setTitle("PaletteContainer");
 export default function PaletteContainer() {
   const { file } = useContext(FileContext);
   const [mdTokens, setMdTokens] = useState({});
+  const theme = useAtomValue(themeAtom);
 
   function processFileContent(content: string) {
     let mdTokensJson: StringIndex = {};
     try {
       mdTokensJson = JSON.parse(content);
-      mdTokensJson = joi.attempt(mdTokensJson, mdTokensSchema);
+      mdTokensJson = joi.attempt(mdTokensJson, mdTailwindThemeSchema);
       const msg = "MD Tokens parsed and applied";
       logger.debug(msg);
-      toast.success(msg);
+      // toast.success(msg);
       setMdTokens(mdTokensJson);
     } catch (err) {
       logger.error(err);
       toast.error(`File schema validation failed: ${(err as Error).message}`);
     }
   }
-
-  //tmp to skip choose file dialog
-  useEffect(() => {
-    const mdTokenString = JSON.stringify(themeJson);
-    processFileContent(mdTokenString);
-  }, []);
 
   useEffect(() => {
     if (!file) return;
@@ -50,6 +48,19 @@ export default function PaletteContainer() {
     };
     reader.readAsText(file);
   }, [file]);
+
+  useDebouncedEffect(
+    () => {
+      setMdTokens(theme);
+      const msg = "Theme updated";
+      logger.debug(msg);
+      if (!nl.isObjectEmpty(theme as unknown as AnyObject)) {
+        toast.success(msg);
+      }
+    },
+    300,
+    [theme],
+  );
 
   return (
     <div

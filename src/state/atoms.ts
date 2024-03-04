@@ -1,5 +1,6 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
+import { MDTailwindThemeJson } from "src/theme/MDTailwindTheme";
 
 const initialColor = ""; //empty
 
@@ -12,12 +13,12 @@ export const neutralVariantCoreColorAtom = atomWithStorage<string>("neutralVaria
 
 export const coreColorsAtom = atom(
   (get) => ({
-    primary: get(primaryCoreColorAtom),
-    secondary: get(secondaryCoreColorAtom),
-    tertiary: get(tertiraryCoreColorAtom),
-    error: get(errorCoreColorAtom),
-    neutral: get(neutralCoreColorAtom),
-    neutralVariant: get(neutralVariantCoreColorAtom),
+    "primary": get(primaryCoreColorAtom),
+    "secondary": get(secondaryCoreColorAtom),
+    "tertiary": get(tertiraryCoreColorAtom),
+    "error": get(errorCoreColorAtom),
+    "neutral": get(neutralCoreColorAtom),
+    "neutral-variant": get(neutralVariantCoreColorAtom),
   }),
   (get, set, newPrice) => {
     set(primaryCoreColorAtom, initialColor);
@@ -28,3 +29,5 @@ export const coreColorsAtom = atom(
     set(neutralVariantCoreColorAtom, initialColor);
   },
 );
+
+export const themeAtom = atomWithStorage<MDTailwindThemeJson>("theme", {} as MDTailwindThemeJson);
