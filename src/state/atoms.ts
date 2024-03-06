@@ -12,14 +12,17 @@ export const neutralCoreColorAtom = atomWithStorage<string>("neutralCoreColor", 
 export const neutralVariantCoreColorAtom = atomWithStorage<string>("neutralVariantCoreColor", initialColor);
 
 export const coreColorsAtom = atom(
-  (get) => ({
-    "primary": get(primaryCoreColorAtom),
-    "secondary": get(secondaryCoreColorAtom),
-    "tertiary": get(tertiraryCoreColorAtom),
-    "error": get(errorCoreColorAtom),
-    "neutral": get(neutralCoreColorAtom),
-    "neutral-variant": get(neutralVariantCoreColorAtom),
-  }),
+  (get) =>
+    Object.fromEntries(
+      Object.entries({
+        "primary": get(primaryCoreColorAtom),
+        "secondary": get(secondaryCoreColorAtom),
+        "tertiary": get(tertiraryCoreColorAtom),
+        "error": get(errorCoreColorAtom),
+        "neutral": get(neutralCoreColorAtom),
+        "neutral-variant": get(neutralVariantCoreColorAtom),
+      }).filter(([key, value]) => value),
+    ),
   (get, set, newPrice) => {
     set(primaryCoreColorAtom, initialColor);
     set(secondaryCoreColorAtom, initialColor);

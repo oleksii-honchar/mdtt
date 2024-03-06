@@ -54,32 +54,61 @@ export default function ToolbetlBtnGroup() {
     logger.debug("Colors and theme deleted");
   }
 
-  const commonCss = `
-    text-md-sys-light-primary hover:text-md-sys-light-on-primary-container 
-    hover:bg-md-sys-light-primary-container
+  const isGenerateAvailable = !!coreColors.primary;
+
+  const basicBtnCss = `
     border-md-sys-light-outline-variant
-    active:bg-md-ref-pal-primary200
+    
     text-sm font-medium px-4 py-2
     inline-flex space-x-1 items-center
+    text-md-sys-light-primary 
+    hover:text-md-sys-light-on-primary-container 
+    hover:bg-md-sys-light-primary-container
+    active:bg-md-ref-pal-primary200
   `;
+
+  const genBtnCss = classNames(
+    `
+    border-md-sys-light-outline-variant
+    
+    text-sm font-medium px-4 py-2
+    inline-flex space-x-1 items-center
+  `,
+    isGenerateAvailable &&
+      `
+      text-md-sys-light-primary 
+      hover:text-md-sys-light-on-primary-container 
+      hover:bg-md-sys-light-primary-container
+      active:bg-md-ref-pal-primary200
+    `,
+    !isGenerateAvailable &&
+      `
+      text-md-ref-pal-neutral400
+      cursor-not-allowed
+      `,
+  );
 
   return (
     <div className="inline-flex items-center rounded-md shadow-sm">
-      <button className={classNames(commonCss, `border  rounded-l-lg`)} onClick={() => generateAndApplyTheme()}>
+      <button
+        className={classNames(genBtnCss, `border  rounded-l-lg`)}
+        onClick={() => generateAndApplyTheme()}
+        disabled={!isGenerateAvailable}
+      >
         <FaMagic />
       </button>
-      <button className={classNames(commonCss, `border-y border-r`)} onClick={() => deleteColorsAndTheme()}>
+      <button className={classNames(basicBtnCss, `border-y border-r`)} onClick={() => deleteColorsAndTheme()}>
         <FaRegTrashCan />
       </button>
       <button
-        className={classNames(commonCss, `border-y`)}
+        className={classNames(basicBtnCss, `border-y`)}
         onClick={() => {
           downloadTheme(theme);
         }}
       >
         <FaDownload />
       </button>
-      <button className={classNames(commonCss, `border rounded-r-lg`)}>
+      <button className={classNames(basicBtnCss, `border rounded-r-lg`)}>
         <FaUpload />
       </button>
     </div>

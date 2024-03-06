@@ -34,33 +34,33 @@ export class MDTailwindTheme {
   theme: MDTailwindThemeJson;
 
   constructor(colors: CoreThemeColors) {
-    this.coreColors = colors;
+    // create palette and scheme for primary color with rest of the colors inferred
+    const primary = argbFromHex(colors.primary);
+    const tmpPalette = CorePalette.of(primary);
+    const tmpScheme = Scheme.lightFromCorePalette(tmpPalette);
 
+    // reassuring that colors is set either by user or inferred
+    this.coreColors = {
+      "primary": colors.primary,
+      "secondary": colors.secondary ?? hexFromArgb(tmpScheme.secondary),
+      "tertiary": colors.tertiary ?? hexFromArgb(tmpScheme.tertiary),
+      "error": colors.error ?? hexFromArgb(tmpScheme.error),
+      "neutral": colors.neutral ?? hexFromArgb(nl.get(tmpScheme, "neutral")),
+      "neutral-variant": colors["neutral-variant"] ?? hexFromArgb(nl.get(tmpScheme, "neutralVariant")),
+    };
+
+    // if other colors defined, use them, otherwise use inferred colors
     const argbCoreColors = <CorePaletteColors>{
       primary: argbFromHex(this.coreColors.primary),
-      secondary: argbFromHex(this.coreColors.secondary ?? "fff"),
-      error: argbFromHex(this.coreColors.error ?? "fff"),
-      neutral: argbFromHex(this.coreColors.neutral ?? "fff"),
-      neutralVariant: argbFromHex(this.coreColors["neutral-variant"] ?? "fff"),
+      secondary: argbFromHex(this.coreColors.secondary as string),
+      error: argbFromHex(this.coreColors.error as string),
+      neutral: argbFromHex(this.coreColors.neutral as string),
+      neutralVariant: argbFromHex(this.coreColors["neutral-variant"] as string),
     };
 
+    // rebuild palette and scheme with actual colors
     this.corePalette = CorePalette.fromColors(argbCoreColors);
-
     this.scheme = Scheme.lightFromCorePalette(this.corePalette);
-    this.theme = {
-      colors: {
-        md: {
-          sys: {
-            light: {},
-          },
-          ref: {
-            pal: {
-              ...this.coreColors,
-            },
-          },
-        },
-      },
-    };
 
     this.composeTheme();
     this.validateTheme();
@@ -77,6 +77,29 @@ export class MDTailwindTheme {
 
     const schemeJson = this.scheme.toJSON();
 
+    // utils to get tones for neutral and neutral-variant
+    const n1Tone = (idx: number) => hexFromArgb(this.corePalette.n1.tone(100 - idx / 10));
+    const n2Tone = (idx: number) => hexFromArgb(this.corePalette.n2.tone(100 - idx / 10));
+
+    // edge-case: when only Primary color set and the rest is inferred neutral will be dark. Let's set them to light
+    this.coreColors.neutral = n1Tone(40);
+    this.coreColors["neutral-variant"] = n2Tone(40);
+
+    this.theme = {
+      colors: {
+        md: {
+          sys: {
+            light: {},
+          },
+          ref: {
+            pal: {
+              ...this.coreColors,
+            },
+          },
+        },
+      },
+    };
+
     // converting sys-light semantic colors to hex
     Object.keys(schemeJson).forEach((key) => {
       const argb = nl.get(schemeJson, key) as number;
@@ -85,8 +108,6 @@ export class MDTailwindTheme {
     });
 
     // there is no surface-levels in schema by default, let's add them manually
-    const n1Tone = (idx: number) => hexFromArgb(this.corePalette.n1.tone(100 - idx / 10));
-
     nl.set(this.theme, `colors.md.sys.light.surface-container-highest`, n1Tone(100));
     nl.set(this.theme, `colors.md.sys.light.surface-container-high`, n1Tone(80));
     nl.set(this.theme, `colors.md.sys.light.surface-container`, n1Tone(60));
