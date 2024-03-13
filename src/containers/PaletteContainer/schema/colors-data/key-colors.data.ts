@@ -17,6 +17,13 @@ export const keyColorsFrom = (tokens: StringIndex) => [
     colorHash: nl.get(tokens, "colors.md.ref.pal.secondary"),
   },
   {
+    name: "Tertiary",
+    tokenPath: "md-ref-pal-tertiary",
+    bgColor: nl.get(tokens, "colors.md.ref.pal.tertiary"),
+    textColor: nl.get(tokens, "colors.md.sys.light.on-tertiary"),
+    colorHash: nl.get(tokens, "colors.md.ref.pal.tertiary"),
+  },
+  {
     name: "Error",
     tokenPath: "md-ref-pal-error",
     bgColor: nl.get(tokens, "colors.md.sys.light.error"),

@@ -9,6 +9,7 @@ import { neutralVShadesFrom } from "../schema/colors-data/neutral-variant-shades
 import { primaryShadesFrom } from "../schema/colors-data/primary-shades.data.ts";
 import { secondaryShadesFrom } from "../schema/colors-data/secondary-shades.data.ts";
 import { sysLightColorsFrom } from "../schema/colors-data/sys-light-colors.data.ts";
+import { tertiaryShadesFrom } from "../schema/colors-data/tertiary-shades.data.ts";
 
 Palette.propTypes = {
   mdTokens: PropTypes.object.isRequired,
@@ -23,16 +24,21 @@ export default function Palette(props: InferProps<typeof Palette.propTypes>) {
       <section className="flex flex-col justify-center">
         <section className="flex flex-row flex-wrap">
           <section id="colors" className="flex flex-wrap gap-4 py-0 w-full">
+            {/* Key colors row */}
             <div className="flex items-stretch h-12 w-full gap-2 justify-between">
               {keyColorsFrom(mdTokens).map((color) => (
                 <KeyColor key={color.name} {...color} />
               ))}
             </div>
+
+            {/* Functional colors row */}
             <div className="flex items-stretch w-full gap-2 justify-between">
               {sysLightColorsFrom(mdTokens).map((colorCol, idx) => (
                 <PaletteColorCol key={`pal-col-${idx}`} colorCol={colorCol} />
               ))}
             </div>
+
+            {/* Shades container */}
             <div className="flex items-stretch w-full gap-2 justify-between">
               <div className="flex flex-col w-full max-w-[20%]">
                 {primaryShadesFrom(mdTokens).map((shadeColor, idx) => (
@@ -42,6 +48,11 @@ export default function Palette(props: InferProps<typeof Palette.propTypes>) {
               <div className="flex flex-col  w-full max-w-[20%]">
                 {secondaryShadesFrom(mdTokens).map((shadeColor, idx) => (
                   <ColorShade key={`secondary-shade-col-${idx}`} {...shadeColor} />
+                ))}
+              </div>
+              <div className="flex flex-col  w-full max-w-[20%]">
+                {tertiaryShadesFrom(mdTokens).map((shadeColor, idx) => (
+                  <ColorShade key={`tertiary-shade-col-${idx}`} {...shadeColor} />
                 ))}
               </div>
               <div className="flex flex-col  w-full max-w-[20%]">

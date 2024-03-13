@@ -81,6 +81,44 @@ export const sysLightColorsFrom = (tokens: StringIndex) => [
   [
     [
       {
+        name: "Tertiary",
+        tokenPath: "md-sys-light-tertiary",
+        bgColor: nl.get(tokens, "colors.md.sys.light.tertiary"),
+        textColor: nl.get(tokens, "colors.md.sys.light.on-tertiary"),
+        colorHash: nl.get(tokens, "colors.md.sys.light.tertiary"),
+        shadeName: "S-600",
+      },
+      {
+        name: "On tertiary",
+        tokenPath: "md-sys-light-on-tertiary",
+        bgColor: nl.get(tokens, "colors.md.sys.light.on-tertiary"),
+        textColor: nl.get(tokens, "colors.md.sys.light.tertiary"),
+        colorHash: nl.get(tokens, "colors.md.sys.light.on-tertiary"),
+        shadeName: "S-10",
+      },
+    ],
+    [
+      {
+        name: "Tertiary Container",
+        tokenPath: "md-sys-light-tertiary-container",
+        bgColor: nl.get(tokens, "colors.md.sys.light.tertiary-container"),
+        textColor: nl.get(tokens, "colors.md.sys.light.on-tertiary-container"),
+        colorHash: nl.get(tokens, "colors.md.sys.light.tertiary-container"),
+        shadeName: "S-100",
+      },
+      {
+        name: "On Tertiary Container",
+        tokenPath: "md-sys-light-on-tertiary-container",
+        bgColor: nl.get(tokens, "colors.md.sys.light.on-tertiary-container"),
+        textColor: nl.get(tokens, "colors.md.sys.light.on-tertiary"),
+        colorHash: nl.get(tokens, "colors.md.sys.light.on-tertiary-container"),
+        shadeName: "S-900",
+      },
+    ],
+  ],
+  [
+    [
+      {
         name: "Error",
         tokenPath: "md-sys-light-error",
         bgColor: nl.get(tokens, "colors.md.sys.light.error"),

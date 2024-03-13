@@ -1,4 +1,11 @@
-import { CorePalette, CorePaletteColors, Scheme, argbFromHex, hexFromArgb } from "@material/material-color-utilities";
+import {
+  CorePalette,
+  CorePaletteColors,
+  Hct,
+  Scheme,
+  argbFromHex,
+  hexFromArgb,
+} from "@material/material-color-utilities";
 
 import { mdTailwindThemeSchema } from "src/theme/mdTailwindThemeSchema";
 
@@ -39,11 +46,18 @@ export class MDTailwindTheme {
     const tmpPalette = CorePalette.of(primary);
     const tmpScheme = Scheme.lightFromCorePalette(tmpPalette);
 
-    // reassuring that colors is set either by user or inferred
+    // Calculate the triadic colors
+    const baseColor = Hct.fromInt(primary);
+    const triadicColor1 = Hct.from((baseColor.hue + 120) % 360, baseColor.chroma, baseColor.tone);
+    const triadicColor2 = Hct.from((baseColor.hue + 240) % 360, baseColor.chroma, baseColor.tone);
+
+    // reassuring that colors is set either by user or inferred using triadic rule
     this.coreColors = {
       "primary": colors.primary,
-      "secondary": colors.secondary ?? hexFromArgb(tmpScheme.secondary),
-      "tertiary": colors.tertiary ?? hexFromArgb(tmpScheme.tertiary),
+      // "secondary": colors.secondary ?? hexFromArgb(tmpScheme.secondary),
+      // "tertiary": colors.tertiary ?? hexFromArgb(tmpScheme.tertiary),
+      "secondary": colors.secondary ?? hexFromArgb(triadicColor1.toInt()),
+      "tertiary": colors.tertiary ?? hexFromArgb(triadicColor2.toInt()),
       "error": colors.error ?? hexFromArgb(tmpScheme.error),
       "neutral": colors.neutral ?? hexFromArgb(nl.get(tmpScheme, "neutral")),
       "neutral-variant": colors["neutral-variant"] ?? hexFromArgb(nl.get(tmpScheme, "neutralVariant")),
@@ -53,6 +67,7 @@ export class MDTailwindTheme {
     const argbCoreColors = <CorePaletteColors>{
       primary: argbFromHex(this.coreColors.primary),
       secondary: argbFromHex(this.coreColors.secondary as string),
+      tertiary: argbFromHex(this.coreColors.tertiary as string),
       error: argbFromHex(this.coreColors.error as string),
       neutral: argbFromHex(this.coreColors.neutral as string),
       neutralVariant: argbFromHex(this.coreColors["neutral-variant"] as string),
@@ -70,6 +85,7 @@ export class MDTailwindTheme {
     const coreColorsCodes = {
       "primary": "a1",
       "secondary": "a2",
+      "tertiary": "a3",
       "error": "error",
       "neutral": "n1",
       "neutral-variant": "n2",
