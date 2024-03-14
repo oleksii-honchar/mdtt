@@ -64,14 +64,14 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
         <div
           css={style}
           className={`
-          w-6 h-6 mr-2
+          w-6 h-6 xl:mr-2
           rounded-md justify-center items-center flex flex-col
           cursor-pointer
         `}
         >
           {!themeColor && <NoColor />}
         </div>
-        {name}
+        <span className="sm:hidden xl:block">{name}</span>
       </TooltipTrigger>
       <TooltipContent
         className={`

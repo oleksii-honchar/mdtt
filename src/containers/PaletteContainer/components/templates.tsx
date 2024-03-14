@@ -97,8 +97,8 @@ export function PaletteColor({ name, textColor, bgColor, colorHash, shadeName, t
         css={style}
         className={`
           flex items-start justify-start w-full p-1 h-14 
-          last:h-12 last:text-[12px]
-          relative text-[14px]
+          last:h-12 last:text-[8px] md:last:text-[10px] lg:last:text-[14px] xl:last:text-sm
+          relative text-[8px] md:text-[10px] lg:text-[14px] xl:text-sm
           first:rounded-t-lg last:rounded-b-lg
           border-2 border-transparent
           hover:border-md-sys-light-outline
@@ -134,7 +134,8 @@ export function ColorShade({ name, textColor, bgColor, colorHash, shadeName, tok
           flex justify-start w-full h-8 
           relative 
           items-center hover:items-start
-          text-[14px] hover:text-[12px]
+          text-[8px] md:text-[10px] lg:text-[14px] xl:text-sm
+          hover:text-[6px] md:hover:text-[8px] lg:hover:text-[12px] xl:hover:text-xs
           p-1 hover:pt-0
           group
           first:rounded-t-lg last:rounded-b-lg
