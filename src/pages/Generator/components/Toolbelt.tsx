@@ -16,8 +16,8 @@ export default function Toolbelt() {
       className={`
           w-full 
           p-2 flex flex-row flex-grow justify-start items-center
-          bg-md-sys-light-surface-container-low
-          rounded-lg
+          bg-md-sys-light-surface-container
+          rounded-tl-lg rounded-tr-lg
         `}
     >
       <div

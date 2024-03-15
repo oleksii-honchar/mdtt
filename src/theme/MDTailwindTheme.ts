@@ -37,7 +37,8 @@ export interface MDTailwindThemeJson {
 export class MDTailwindTheme {
   coreColors: CoreThemeColors;
   corePalette: CorePalette;
-  scheme: Scheme;
+  lightScheme: Scheme;
+  darkScheme: Scheme;
   theme: MDTailwindThemeJson;
 
   constructor(colors: CoreThemeColors) {
@@ -79,7 +80,8 @@ export class MDTailwindTheme {
 
     // Building palette and scheme with actual colors
     this.corePalette = CorePalette.fromColors(argbCoreColors);
-    this.scheme = Scheme.lightFromCorePalette(this.corePalette);
+    this.lightScheme = Scheme.lightFromCorePalette(this.corePalette);
+    this.darkScheme = Scheme.darkFromCorePalette(this.corePalette);
 
     this.composeTheme();
     this.validateTheme();
@@ -104,7 +106,8 @@ export class MDTailwindTheme {
       "neutral-variant": "n2",
     };
 
-    const schemeJson = this.scheme.toJSON();
+    const lightSchemeJson = this.lightScheme.toJSON();
+    const darkSchemeJson = this.darkScheme.toJSON();
 
     // utils to get tones for neutral and neutral-variant
     const n1Tone = (idx: number) => hexFromArgb(this.corePalette.n1.tone(100 - idx / 10));
@@ -119,6 +122,7 @@ export class MDTailwindTheme {
         md: {
           sys: {
             light: {},
+            dark: {},
           },
           ref: {
             pal: {
@@ -130,10 +134,17 @@ export class MDTailwindTheme {
     };
 
     // converting sys-light semantic colors to hex
-    Object.keys(schemeJson).forEach((key) => {
-      const argb = nl.get(schemeJson, key) as number;
+    Object.keys(lightSchemeJson).forEach((key) => {
+      const argb = nl.get(lightSchemeJson, key) as number;
       const hex = hexFromArgb(argb);
       nl.set(this.theme, `colors.md.sys.light.${nl.camelToKebab(key)}`, hex);
+    });
+
+    // converting sys-dark semantic colors to hex
+    Object.keys(darkSchemeJson).forEach((key) => {
+      const argb = nl.get(darkSchemeJson, key) as number;
+      const hex = hexFromArgb(argb);
+      nl.set(this.theme, `colors.md.sys.dark.${nl.camelToKebab(key)}`, hex);
     });
 
     // there is no surface-levels in schema by default, let's add them manually
@@ -144,6 +155,15 @@ export class MDTailwindTheme {
     nl.set(this.theme, `colors.md.sys.light.surface-container-lowest`, n1Tone(0));
     nl.set(this.theme, `colors.md.sys.light.surface-dim`, n1Tone(130));
     nl.set(this.theme, `colors.md.sys.light.surface`, n1Tone(20));
+
+    // there is no surface-levels in schema by default, let's add them manually
+    nl.set(this.theme, `colors.md.sys.dark.surface-container-highest`, n1Tone(100));
+    nl.set(this.theme, `colors.md.sys.dark.surface-container-high`, n1Tone(80));
+    nl.set(this.theme, `colors.md.sys.dark.surface-container`, n1Tone(60));
+    nl.set(this.theme, `colors.md.sys.dark.surface-container-low`, n1Tone(40));
+    nl.set(this.theme, `colors.md.sys.dark.surface-container-lowest`, n1Tone(0));
+    nl.set(this.theme, `colors.md.sys.dark.surface-dim`, n1Tone(130));
+    nl.set(this.theme, `colors.md.sys.dark.surface`, n1Tone(20));
 
     // getting tones for core colors
     const themeColorShadeCodes = [900, 800, 700, 600, 500, 400, 300, 200, 100, 50, 20, 10];

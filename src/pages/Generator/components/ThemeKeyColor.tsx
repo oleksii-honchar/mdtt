@@ -1,18 +1,18 @@
-import { LoggerService } from "@ciklum/logan";
-import { css } from "@emotion/react";
-import { Atom, useAtom } from "jotai";
-import { HexColorInput, HexColorPicker } from "powerful-color-picker";
-import { useEffect, useState } from "react";
-import { FaCheck } from "react-icons/fa";
-import { FaRegTrashCan } from "react-icons/fa6";
-import { MdNotInterested } from "react-icons/md";
+import { LoggerService } from '@ciklum/logan';
+import { css } from '@emotion/react';
+import { Atom, useAtom } from 'jotai';
+import { HexColorInput, HexColorPicker } from 'powerful-color-picker';
+import { useEffect, useState } from 'react';
+import { FaCheck } from 'react-icons/fa';
+import { FaRegTrashCan } from 'react-icons/fa6';
+import { MdNotInterested } from 'react-icons/md';
 
-import { classNames } from "src/utils/classNames";
+import { classNames } from 'src/utils/classNames';
 
-import { Tooltip, TooltipContent, TooltipTrigger, useTooltip } from "src/components/Tooltip.tsx";
+import { Tooltip, TooltipContent, TooltipTrigger, useTooltip } from 'src/components/Tooltip.tsx';
 
 const logger = new LoggerService();
-logger.setTitle("ThemeKeyColor");
+logger.setTitle('ThemeKeyColor');
 
 interface ThemeKeyColorParams {
   name: string;
@@ -27,8 +27,8 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
   const NoColor = () => <MdNotInterested className="text-md-sys-light-primary" />;
 
   const resetColor = () => {
-    setColorPickerColor("");
-    setThemeColor("");
+    setColorPickerColor('');
+    setThemeColor('');
   };
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
         data-id="ThemeKeyColor"
         className={`
           flex flex-row justify-start items-center
-          bg-md-sys-light-surface-container
+          bg-md-sys-light-surface-container-low
           rounded-lg mx-2 p-2
         `}
         onClick={() => {
@@ -102,7 +102,7 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
             </div>
             <HexColorInput
               className="w-16 h-8 text-center rounded-r-md block"
-              color={colorPickerColor || "00000"}
+              color={colorPickerColor || '00000'}
               onChange={setColorPickerColor}
             />
           </div>
@@ -128,7 +128,7 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
               )}
               onClick={() => {
                 resetColor();
-                logger.info("color reset");
+                logger.info('color reset');
               }}
             >
               <FaRegTrashCan />

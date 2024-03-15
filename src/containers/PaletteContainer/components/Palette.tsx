@@ -1,15 +1,8 @@
-import PropTypes, { InferProps } from "prop-types";
+import { Tab } from '@headlessui/react';
+import PropTypes, { InferProps } from 'prop-types';
 
-import { ColorShade, KeyColor, PaletteColorCol } from "./templates.tsx";
-
-import { errorShadesFrom } from "../schema/colors-data/error-shades.data.ts";
-import { keyColorsFrom } from "../schema/colors-data/key-colors.data.ts";
-import { neutralShadesFrom } from "../schema/colors-data/neutral-shades.data.ts";
-import { neutralVShadesFrom } from "../schema/colors-data/neutral-variant-shades.data.ts";
-import { primaryShadesFrom } from "../schema/colors-data/primary-shades.data.ts";
-import { secondaryShadesFrom } from "../schema/colors-data/secondary-shades.data.ts";
-import { sysLightColorsFrom } from "../schema/colors-data/sys-light-colors.data.ts";
-import { tertiaryShadesFrom } from "../schema/colors-data/tertiary-shades.data.ts";
+import { classNames } from 'src/utils/classNames.ts';
+import PaletteSchema from './PaletteSchema.tsx';
 
 Palette.propTypes = {
   mdTokens: PropTypes.object.isRequired,
@@ -18,62 +11,53 @@ Palette.propTypes = {
 export default function Palette(props: InferProps<typeof Palette.propTypes>) {
   const { mdTokens } = props;
 
+  const commonTabCss = `
+    flex flex-grow items-center justify-center 
+    p-2
+
+    border-md-sys-light-outline-variant
+    
+    text-sm font-medium
+    text-md-sys-light-primary 
+    hover:text-md-sys-light-on-primary-container 
+    hover:bg-md-sys-light-primary-container
+    active:bg-md-ref-pal-primary200
+    ui-selected:bg-md-sys-light-background
+    ui-selected:text-md-sys-light-on-background
+    focus:outline-none
+  `;
+
   return (
-    <>
-      <h3 className="">Light</h3>
-      <section className="flex flex-col justify-center">
-        <section className="flex flex-row flex-wrap">
-          <section id="colors" className="flex flex-wrap gap-4 py-0 w-full">
-            {/* Key colors row */}
-            <div className="flex items-stretch h-12 w-full gap-2 justify-between">
-              {keyColorsFrom(mdTokens).map((color) => (
-                <KeyColor key={color.name} {...color} />
-              ))}
-            </div>
-
-            {/* Functional colors row */}
-            <div className="flex items-stretch w-full gap-2 justify-between">
-              {sysLightColorsFrom(mdTokens).map((colorCol, idx) => (
-                <PaletteColorCol key={`pal-col-${idx}`} colorCol={colorCol} />
-              ))}
-            </div>
-
-            {/* Shades container */}
-            <div className="flex items-stretch w-full gap-2 justify-between">
-              <div className="flex flex-col w-full max-w-[20%]">
-                {primaryShadesFrom(mdTokens).map((shadeColor, idx) => (
-                  <ColorShade key={`primary-shade-col-${idx}`} {...shadeColor} />
-                ))}
-              </div>
-              <div className="flex flex-col  w-full max-w-[20%]">
-                {secondaryShadesFrom(mdTokens).map((shadeColor, idx) => (
-                  <ColorShade key={`secondary-shade-col-${idx}`} {...shadeColor} />
-                ))}
-              </div>
-              <div className="flex flex-col  w-full max-w-[20%]">
-                {tertiaryShadesFrom(mdTokens).map((shadeColor, idx) => (
-                  <ColorShade key={`tertiary-shade-col-${idx}`} {...shadeColor} />
-                ))}
-              </div>
-              <div className="flex flex-col  w-full max-w-[20%]">
-                {errorShadesFrom(mdTokens).map((shadeColor, idx) => (
-                  <ColorShade key={`error-shade-col-${idx}`} {...shadeColor} />
-                ))}
-              </div>
-              <div className="flex flex-col  w-full max-w-[20%]">
-                {neutralShadesFrom(mdTokens).map((shadeColor, idx) => (
-                  <ColorShade key={`neutral-shade-col-${idx}`} {...shadeColor} />
-                ))}
-              </div>
-              <div className="flex flex-col w-full max-w-[20%]">
-                {neutralVShadesFrom(mdTokens).map((shadeColor, idx) => (
-                  <ColorShade key={`neutral-v-shade-col-${idx}`} {...shadeColor} />
-                ))}
-              </div>
-            </div>
-          </section>
-        </section>
-      </section>
-    </>
+    <Tab.Group>
+      <Tab.List
+        className={`
+        w-full 
+        flex flex-row flex-grow justify-start items-center
+        bg-md-sys-light-surface-container-low
+        rounded-lg
+        mb-2
+      `}
+      >
+        <Tab
+          className={classNames(
+            commonTabCss,
+            `
+              border  rounded-l-lg border-y
+            `,
+          )}
+        >
+          Light
+        </Tab>
+        <Tab className={classNames(commonTabCss, 'border border-l-0  rounded-r-lg')}>Dark</Tab>
+      </Tab.List>
+      <Tab.Panels>
+        <Tab.Panel>
+          <PaletteSchema mdTokens={mdTokens} light />
+        </Tab.Panel>
+        <Tab.Panel>
+          <PaletteSchema mdTokens={mdTokens} dark />
+        </Tab.Panel>
+      </Tab.Panels>
+    </Tab.Group>
   );
 }
