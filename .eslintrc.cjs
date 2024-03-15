@@ -49,12 +49,14 @@ module.exports = {
       {
         tabWidth: 2,
         eslintIntegration: true,
+        singleQuote: true,
         printWidth: 120,
+        quoteProps: ["error", "consistent-as-needed"],
       },
     ],
     "react/no-unknown-property": ["error", { "ignore": ["css"] }],
     "react/react-in-jsx-scope": 0,
-    "quote-props": ["error", "consistent-as-needed"],
+    
   },
   env: {
     browser: true,

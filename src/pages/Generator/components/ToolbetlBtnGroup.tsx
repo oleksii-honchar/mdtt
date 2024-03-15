@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { classNames } from "src/utils/classNames";
 
 import { coreColorsAtom, themeAtom } from "src/state/atoms";
-import { MDTailwindTheme, MDTailwindThemeJson } from "src/theme/MDTailwindTheme";
+import { MDTailwindTheme, MDTailwindThemeJson, CoreThemeColors } from "src/theme/MDTailwindTheme";
 
 const logger = new LoggerService();
 logger.setTitle("ToolbetlBtnGroup");
@@ -18,7 +18,7 @@ export default function ToolbetlBtnGroup() {
   const [theme, setTheme] = useAtom(themeAtom);
 
   function generateAndApplyTheme() {
-    const theme = new MDTailwindTheme(coreColors);
+    const theme = new MDTailwindTheme(coreColors as unknown as CoreThemeColors);
 
     setTheme(theme.toJson());
   }
@@ -54,7 +54,8 @@ export default function ToolbetlBtnGroup() {
     logger.debug("Colors and theme deleted");
   }
 
-  const isGenerateAvailable = !!coreColors.primary;
+  // const isGenerateAvailable = !!coreColors.primary;
+  const isGenerateAvailable = true;
 
   const basicBtnCss = `
     border-md-sys-light-outline-variant
