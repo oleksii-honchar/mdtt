@@ -1,8 +1,8 @@
-import { Outlet } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { Outlet } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
-import { Footer } from "src/components/Footer.tsx";
-import { PageNavbar } from "src/components/PageNavbar.tsx";
+import { Footer } from 'src/components/Footer.tsx';
+import { PageNavbar } from 'src/components/PageNavbar.tsx';
 
 export function Layout({}) {
   return (
@@ -11,7 +11,7 @@ export function Layout({}) {
         flex min-h-screen w-full flex-col 
         bg-[radial-gradient(ellipse_90%_50%_at_50%_10%,_var(--tw-gradient-stops))] 
         from-md-sys-light-surface-container-lowest to-md-sys-light-surface-container
-        bg-contain bg-no-repeat bg-top
+        bg-contain bg-no-repeat bg-top bg-cover
       `}
     >
       <PageNavbar />

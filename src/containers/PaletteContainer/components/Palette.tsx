@@ -12,10 +12,11 @@ export default function Palette(props: InferProps<typeof Palette.propTypes>) {
   const { mdTokens } = props;
 
   const commonTabCss = `
-    flex flex-grow items-center justify-center 
-    p-2
+    flex items-center justify-center 
+    p-2 w-20 rounded-lg
 
-    border-md-sys-light-outline-variant
+    border 
+    hover:border-md-sys-light-outline-variant
     
     text-sm font-medium
     text-md-sys-light-primary 
@@ -32,23 +33,14 @@ export default function Palette(props: InferProps<typeof Palette.propTypes>) {
       <Tab.List
         className={`
         w-full 
-        flex flex-row flex-grow justify-start items-center
-        bg-md-sys-light-surface-container-low
+        flex flex-row flex-grow justify-center items-center
+        bg-md-sys-light-surface-container
         rounded-lg
-        mb-2
+        mb-2 p-1 space-x-2
       `}
       >
-        <Tab
-          className={classNames(
-            commonTabCss,
-            `
-              border  rounded-l-lg border-y
-            `,
-          )}
-        >
-          Light
-        </Tab>
-        <Tab className={classNames(commonTabCss, 'border border-l-0  rounded-r-lg')}>Dark</Tab>
+        <Tab className={classNames(commonTabCss)}>Light</Tab>
+        <Tab className={classNames(commonTabCss)}>Dark</Tab>
       </Tab.List>
       <Tab.Panels>
         <Tab.Panel>

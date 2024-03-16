@@ -1,27 +1,29 @@
-import PropTypes, { InferProps } from "prop-types";
+import PropTypes, { InferProps } from 'prop-types';
 
-import { ColorShade, KeyColor, PaletteColorCol } from "./templates.tsx";
+import { ColorShade, KeyColor, PaletteColorCol } from './templates.tsx';
 
-import { errorShadesFrom } from "../schema/colors-data/error-shades.data.ts";
-import { keyColorsFrom } from "../schema/colors-data/key-colors.data.ts";
-import { neutralShadesFrom } from "../schema/colors-data/neutral-shades.data.ts";
-import { neutralVShadesFrom } from "../schema/colors-data/neutral-variant-shades.data.ts";
-import { primaryShadesFrom } from "../schema/colors-data/primary-shades.data.ts";
-import { secondaryShadesFrom } from "../schema/colors-data/secondary-shades.data.ts";
-import { sysLightColorsFrom } from "../schema/colors-data/sys-light-colors.data.ts";
-import { sysDarkColorsFrom } from "../schema/colors-data/sys-dark-colors.data.ts";
-import { tertiaryShadesFrom } from "../schema/colors-data/tertiary-shades.data.ts";
+import { errorShadesFrom } from '../schema/colors-data/error-shades.data.ts';
+import { keyColorsFrom } from '../schema/colors-data/key-colors.data.ts';
+import { neutralDarkShadesFrom } from '../schema/colors-data/neutral-shades-dark.data.ts';
+import { neutralLightShadesFrom } from '../schema/colors-data/neutral-shades-light.data.ts';
+import { neutralVShadesFrom } from '../schema/colors-data/neutral-variant-shades.data.ts';
+import { primaryShadesFrom } from '../schema/colors-data/primary-shades.data.ts';
+import { secondaryShadesFrom } from '../schema/colors-data/secondary-shades.data.ts';
+import { sysDarkColorsFrom } from '../schema/colors-data/sys-dark-colors.data.ts';
+import { sysLightColorsFrom } from '../schema/colors-data/sys-light-colors.data.ts';
+import { tertiaryShadesFrom } from '../schema/colors-data/tertiary-shades.data.ts';
 
 PaletteSchema.propTypes = {
   mdTokens: PropTypes.object.isRequired,
   light: PropTypes.bool,
-  dark: PropTypes.bool
+  dark: PropTypes.bool,
 };
 
 export default function PaletteSchema(props: InferProps<typeof PaletteSchema.propTypes>) {
   const { mdTokens, light, dark } = props;
 
   const sysColorsFrom = light && !dark ? sysLightColorsFrom : sysDarkColorsFrom;
+  const neutralShadesFrom = light && !dark ? neutralLightShadesFrom : neutralDarkShadesFrom;
 
   return (
     <section className="flex flex-col justify-center">
@@ -77,5 +79,5 @@ export default function PaletteSchema(props: InferProps<typeof PaletteSchema.pro
         </section>
       </section>
     </section>
-  )
+  );
 }

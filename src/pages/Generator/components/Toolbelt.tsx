@@ -5,9 +5,9 @@ import {
   primaryCoreColorAtom,
   secondaryCoreColorAtom,
   tertiraryCoreColorAtom,
-} from "src/state/atoms";
-import ThemeKeyColor from "./ThemeKeyColor";
-import ToolbetlBtnGroup from "./ToolbetlBtnGroup";
+} from 'src/state/atoms';
+import ThemeKeyColor from './ThemeKeyColor';
+import ToolbetlBtnGroup from './ToolbetlBtnGroup';
 
 export default function Toolbelt() {
   return (
@@ -16,8 +16,6 @@ export default function Toolbelt() {
       className={`
           w-full 
           p-2 flex flex-row flex-grow justify-start items-center
-          bg-md-sys-light-surface-container
-          rounded-tl-lg rounded-tr-lg
         `}
     >
       <div

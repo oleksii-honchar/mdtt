@@ -39,12 +39,15 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
     background-color: ${themeColor};
   `;
 
-  const commonCss = `
-    text-md-sys-light-primary hover:text-md-sys-light-on-primary-container 
-    hover:bg-md-sys-light-primary-container
-    border-md-sys-light-outline-variant
-    active:bg-md-ref-pal-primary200
+  const colorPickerBtnsCommonCss = `
     text-sm font-medium px-2 py-1
+    
+    text-md-sys-light-primary hover:text-md-sys-light-on-primary-container 
+    
+    hover:bg-md-sys-light-primary-container
+    active:bg-md-ref-pal-primary200
+    
+    border-md-sys-light-outline-variant
   `;
 
   return (
@@ -54,7 +57,8 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
         data-id="ThemeKeyColor"
         className={`
           flex flex-row justify-start items-center
-          bg-md-sys-light-surface-container-low
+          bg-md-sys-light-surface-lowest
+          border border-md-sys-light-outline-variant/50
           rounded-lg mx-2 p-2
         `}
         onClick={() => {
@@ -111,7 +115,7 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
           <div className="inline-flex items-center rounded-md shadow-sm">
             <button
               className={classNames(
-                commonCss,
+                colorPickerBtnsCommonCss,
                 `h-8 border border-r-0 rounded-l-lg w-18 flex flex-row justify-center items-center`,
               )}
               onClick={() => {
@@ -123,7 +127,7 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
             </button>
             <button
               className={classNames(
-                commonCss,
+                colorPickerBtnsCommonCss,
                 `h-8 border  rounded-r-lg w-18 flex flex-row justify-center items-center`,
               )}
               onClick={() => {

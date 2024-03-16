@@ -5,18 +5,18 @@ import {
   Scheme,
   argbFromHex,
   hexFromArgb,
-} from "@material/material-color-utilities";
+} from '@material/material-color-utilities';
 
-import { mdTailwindThemeSchema } from "src/theme/mdTailwindThemeSchema";
+import { mdTailwindThemeSchema } from 'src/theme/mdTailwindThemeSchema';
 
-import { nl } from "src/utils/native-lodash.ts";
+import { nl } from 'src/utils/native-lodash.ts';
 
 export interface CoreThemeColors {
   primary: string;
   secondary?: string;
   tertiary?: string;
   neutral?: string;
-  "neutral-variant"?: string;
+  'neutral-variant'?: string;
   error?: string;
 }
 
@@ -60,12 +60,12 @@ export class MDTailwindTheme {
 
     // reassuring that colors is set either by user or inferred using triadic rule
     this.coreColors = {
-      "primary": colors.primary ?? hexFromArgb(primary),
-      "secondary": colors.secondary ?? hexFromArgb(triadicColor1),
-      "tertiary": colors.tertiary ?? hexFromArgb(triadicColor2),
-      "error": colors.error ?? hexFromArgb(tmpScheme.error),
-      "neutral": colors.neutral ?? hexFromArgb(nl.get(tmpScheme, "neutral")),
-      "neutral-variant": colors["neutral-variant"] ?? hexFromArgb(nl.get(tmpScheme, "neutralVariant")),
+      primary: colors.primary ?? hexFromArgb(primary),
+      secondary: colors.secondary ?? hexFromArgb(triadicColor1),
+      tertiary: colors.tertiary ?? hexFromArgb(triadicColor2),
+      error: colors.error ?? hexFromArgb(tmpScheme.error),
+      neutral: colors.neutral ?? hexFromArgb(nl.get(tmpScheme, 'neutral')),
+      'neutral-variant': colors['neutral-variant'] ?? hexFromArgb(nl.get(tmpScheme, 'neutralVariant')),
     };
 
     // Finally cast colors to argb
@@ -75,7 +75,7 @@ export class MDTailwindTheme {
       tertiary: argbFromHex(this.coreColors.tertiary as string),
       error: argbFromHex(this.coreColors.error as string),
       neutral: argbFromHex(this.coreColors.neutral as string),
-      neutralVariant: argbFromHex(this.coreColors["neutral-variant"] as string),
+      neutralVariant: argbFromHex(this.coreColors['neutral-variant'] as string),
     };
 
     // Building palette and scheme with actual colors
@@ -98,24 +98,24 @@ export class MDTailwindTheme {
 
   private composeTheme() {
     const coreColorsCodes = {
-      "primary": "a1",
-      "secondary": "a2",
-      "tertiary": "a3",
-      "error": "error",
-      "neutral": "n1",
-      "neutral-variant": "n2",
+      primary: 'a1',
+      secondary: 'a2',
+      tertiary: 'a3',
+      error: 'error',
+      neutral: 'n1',
+      'neutral-variant': 'n2',
     };
 
     const lightSchemeJson = this.lightScheme.toJSON();
     const darkSchemeJson = this.darkScheme.toJSON();
 
-    // utils to get tones for neutral and neutral-variant
+    // utils to get tones for neutral and neutral-variant. idx = 0(light)-1000(dark)
     const n1Tone = (idx: number) => hexFromArgb(this.corePalette.n1.tone(100 - idx / 10));
     const n2Tone = (idx: number) => hexFromArgb(this.corePalette.n2.tone(100 - idx / 10));
 
     // edge-case: when only Primary color set and the rest is inferred neutral will be dark. Let's set them to light
     this.coreColors.neutral = n1Tone(40);
-    this.coreColors["neutral-variant"] = n2Tone(40);
+    this.coreColors['neutral-variant'] = n2Tone(40);
 
     this.theme = {
       colors: {
@@ -157,13 +157,13 @@ export class MDTailwindTheme {
     nl.set(this.theme, `colors.md.sys.light.surface`, n1Tone(20));
 
     // there is no surface-levels in schema by default, let's add them manually
-    nl.set(this.theme, `colors.md.sys.dark.surface-container-highest`, n1Tone(100));
-    nl.set(this.theme, `colors.md.sys.dark.surface-container-high`, n1Tone(80));
-    nl.set(this.theme, `colors.md.sys.dark.surface-container`, n1Tone(60));
-    nl.set(this.theme, `colors.md.sys.dark.surface-container-low`, n1Tone(40));
-    nl.set(this.theme, `colors.md.sys.dark.surface-container-lowest`, n1Tone(0));
-    nl.set(this.theme, `colors.md.sys.dark.surface-dim`, n1Tone(130));
-    nl.set(this.theme, `colors.md.sys.dark.surface`, n1Tone(20));
+    nl.set(this.theme, `colors.md.sys.dark.surface-container-highest`, n1Tone(760));
+    nl.set(this.theme, `colors.md.sys.dark.surface-container-high`, n1Tone(830));
+    nl.set(this.theme, `colors.md.sys.dark.surface-container`, n1Tone(880));
+    nl.set(this.theme, `colors.md.sys.dark.surface-container-low`, n1Tone(900));
+    nl.set(this.theme, `colors.md.sys.dark.surface-container-lowest`, n1Tone(960));
+    nl.set(this.theme, `colors.md.sys.dark.surface-dim`, n1Tone(940));
+    nl.set(this.theme, `colors.md.sys.dark.surface`, n1Tone(940));
 
     // getting tones for core colors
     const themeColorShadeCodes = [900, 800, 700, 600, 500, 400, 300, 200, 100, 50, 20, 10];

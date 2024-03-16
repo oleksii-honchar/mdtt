@@ -1,5 +1,5 @@
-import moment from "moment";
-import { FaCopyright } from "react-icons/fa";
+import moment from 'moment';
+import { FaCopyright } from 'react-icons/fa';
 
 export function Footer() {
   return (
@@ -7,7 +7,8 @@ export function Footer() {
       id="Footer"
       className={`
         h-12 w-full mt-4
-        backdrop-blur-md bg-md-sys-light-surface/60
+        backdrop-blur-sm 
+        bg-md-sys-light-surface-container-lowest
       `}
     >
       <div className="w-full h-full">
@@ -20,7 +21,7 @@ export function Footer() {
         `}
         >
           <span className={`flex justify-center gap-2 items-center`}>
-            <FaCopyright className={``} /> {moment().format("YYYY")} mdtt
+            <FaCopyright className={``} /> {moment().format('YYYY')} mdtt
           </span>
           <span
             className={`

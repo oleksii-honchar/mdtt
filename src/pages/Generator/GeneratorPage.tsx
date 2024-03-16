@@ -1,7 +1,7 @@
-import PaletteContainer from "src/containers/PaletteContainer/PaletteContainer.tsx";
-import Info from "./components/Info";
-import Toolbelt from "./components/Toolbelt";
-import ToolbeltContainer from "./components/ToolbeltContainer";
+import PaletteContainer from 'src/containers/PaletteContainer/PaletteContainer.tsx';
+import Info from './components/Info';
+import Toolbelt from './components/Toolbelt';
+import ToolbeltContainer from './components/ToolbeltContainer';
 
 export default function GeneratorPage() {
   return (
@@ -11,10 +11,12 @@ export default function GeneratorPage() {
       `}
     >
       <Info />
-      <ToolbeltContainer>
-        <Toolbelt />
+      <div className="shadow-lg rounded-lg">
+        <ToolbeltContainer>
+          <Toolbelt />
+        </ToolbeltContainer>
         <PaletteContainer />
-      </ToolbeltContainer>
+      </div>
     </article>
   );
 }

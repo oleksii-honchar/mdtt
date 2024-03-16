@@ -1,23 +1,23 @@
-import { LoggerService } from "@ciklum/logan";
-import joi from "joi";
-import { useAtomValue } from "jotai";
-import { useContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import type { StringIndex } from "src/typings/index.d.ts";
+import { LoggerService } from '@ciklum/logan';
+import joi from 'joi';
+import { useAtomValue } from 'jotai';
+import { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import type { StringIndex } from 'src/typings/index.d.ts';
 
-import { AnyObject, nl } from "src/utils/native-lodash.ts";
+import { AnyObject, nl } from 'src/utils/native-lodash.ts';
 
-import { FileContext } from "src/contexts/FileContext.tsx";
-import { mdTailwindThemeSchema } from "src/theme/mdTailwindThemeSchema.ts";
-import Palette from "./components/Palette.tsx";
-import PalettePlaceholder from "./components/PalettePlaceholder.tsx";
+import { FileContext } from 'src/contexts/FileContext.tsx';
+import { mdTailwindThemeSchema } from 'src/theme/mdTailwindThemeSchema.ts';
+import Palette from './components/Palette.tsx';
+import PalettePlaceholder from './components/PalettePlaceholder.tsx';
 
-import { useDebouncedEffect } from "src/hooks/useDebouncedEffect.ts";
+import { useDebouncedEffect } from 'src/hooks/useDebouncedEffect.ts';
 
-import { themeAtom } from "src/state/atoms.ts";
+import { themeAtom } from 'src/state/atoms.ts';
 
 const logger = new LoggerService();
-logger.setTitle("PaletteContainer");
+logger.setTitle('PaletteContainer');
 
 export default function PaletteContainer() {
   const { file } = useContext(FileContext);
@@ -29,7 +29,7 @@ export default function PaletteContainer() {
     try {
       mdTokensJson = JSON.parse(content);
       mdTokensJson = joi.attempt(mdTokensJson, mdTailwindThemeSchema);
-      const msg = "MD Tokens parsed and applied";
+      const msg = 'MD Tokens parsed and applied';
       logger.debug(msg);
       // toast.success(msg);
       setMdTokens(mdTokensJson);
@@ -52,7 +52,7 @@ export default function PaletteContainer() {
   useDebouncedEffect(
     () => {
       setMdTokens(theme);
-      const msg = "Theme updated";
+      const msg = 'Theme updated';
       logger.debug(msg);
       if (!nl.isObjectEmpty(theme as unknown as AnyObject)) {
         toast.success(msg);
@@ -68,6 +68,9 @@ export default function PaletteContainer() {
       className={`
           w-full max-w-3xl md:max-w-4xl lg:max-w-6xl
           p-2 flex flex-col flex-grow
+          backdrop-blur-sm
+          bg-md-sys-light-surface/60
+          rounded-bl-lg rounded-br-lg
         `}
     >
       {!nl.isObjectEmpty(mdTokens) && <Palette mdTokens={mdTokens} />}

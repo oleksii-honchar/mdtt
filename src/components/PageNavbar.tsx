@@ -1,13 +1,14 @@
-import { PageNavItems } from "./PageNavItems.tsx";
-import { Title } from "./Title.tsx";
+import { PageNavItems } from './PageNavItems.tsx';
+import { Title } from './Title.tsx';
 export function PageNavbar() {
   return (
     <div
       id="PageNavbar"
       className={`
-        w-full mx-auto shadow-sm  
+        w-full mx-auto shadow-lg  
         flex items-center justify-center
-        backdrop-blur-md bg-md-sys-light-surface/80
+        backdrop-blur-sm
+        bg-md-sys-light-surface-container-lowest
       `}
     >
       <div
