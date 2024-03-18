@@ -14,7 +14,7 @@ import PalettePlaceholder from './components/PalettePlaceholder.tsx';
 
 import { useDebouncedEffect } from 'src/hooks/useDebouncedEffect.ts';
 
-import { themeAtom } from 'src/state/atoms.ts';
+import { themeAtom } from 'src/state/color-atoms.ts';
 
 const logger = new LoggerService();
 logger.setTitle('PaletteContainer');

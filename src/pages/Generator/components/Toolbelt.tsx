@@ -5,7 +5,7 @@ import {
   primaryCoreColorAtom,
   secondaryCoreColorAtom,
   tertiraryCoreColorAtom,
-} from 'src/state/atoms';
+} from 'src/state/color-atoms';
 import ThemeKeyColor from './ThemeKeyColor';
 import ToolbetlBtnGroup from './ToolbetlBtnGroup';
 

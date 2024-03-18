@@ -1,61 +1,16 @@
 import { LoggerService } from '@ciklum/logan';
-import { useAtom } from 'jotai';
-import moment from 'moment';
+import { useAtomValue } from 'jotai';
 import { FaDownload, FaMagic, FaUpload } from 'react-icons/fa';
 import { FaRegTrashCan } from 'react-icons/fa6';
-import { toast } from 'react-toastify';
 
+import { btnActionsAtom } from 'src/state/btn-actions-atom';
 import { classNames } from 'src/utils/classNames';
-
-import { coreColorsAtom, themeAtom } from 'src/state/atoms';
-import { CoreThemeColors, MDTailwindTheme, MDTailwindThemeJson } from 'src/theme/MDTailwindTheme';
 
 const logger = new LoggerService();
 logger.setTitle('ToolbetlBtnGroup');
 
 export default function ToolbetlBtnGroup() {
-  const [coreColors, resetCoreColors] = useAtom(coreColorsAtom);
-  const [theme, setTheme] = useAtom(themeAtom);
-
-  function generateAndApplyTheme() {
-    const theme = new MDTailwindTheme(coreColors as unknown as CoreThemeColors);
-
-    setTheme(theme.toJson());
-  }
-
-  function getFullName() {
-    const timestamp = moment().format('YYYYMMDDhhmm');
-    return `md-tw-theme-${timestamp}.json`;
-  }
-
-  function downloadTheme(themeJson: object) {
-    const filename = getFullName();
-    const element = document.createElement('a');
-    const content = JSON.stringify(themeJson, null, 2);
-
-    element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(content));
-    element.setAttribute('download', filename);
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-
-    element.click();
-
-    document.body.removeChild(element);
-
-    const msg = 'Theme downloaded successfully!';
-    logger.debug(msg);
-    toast.success(msg);
-  }
-
-  function deleteColorsAndTheme() {
-    resetCoreColors(null);
-    setTheme({} as MDTailwindThemeJson);
-    logger.debug('Colors and theme deleted');
-  }
-
-  // const isGenerateAvailable = !!coreColors.primary;
-  const isGenerateAvailable = true;
+  const btnActions = useAtomValue(btnActionsAtom);
 
   const basicBtnCss = `
     inline-flex space-x-1 items-center
@@ -75,26 +30,33 @@ export default function ToolbetlBtnGroup() {
   `;
 
   return (
-    <div className="inline-flex items-center rounded-md shadow-sm">
+    <div id="ToolbetlBtnGroup" className="inline-flex items-center rounded-md shadow-sm">
       <button
         className={classNames(basicBtnCss, `border  rounded-l-lg`)}
-        onClick={() => generateAndApplyTheme()}
-        disabled={!isGenerateAvailable}
+        onClick={() => btnActions.generateAndApplyTheme()}
       >
         <FaMagic />
       </button>
-      <button className={classNames(basicBtnCss, `border-y border-r`)} onClick={() => deleteColorsAndTheme()}>
+      <button
+        className={classNames(basicBtnCss, `border-y border-r`)}
+        onClick={() => btnActions.deleteColorsAndTheme()}
+      >
         <FaRegTrashCan />
       </button>
       <button
         className={classNames(basicBtnCss, `border-y`)}
         onClick={() => {
-          downloadTheme(theme);
+          btnActions.downloadCurrTheme();
         }}
       >
         <FaDownload />
       </button>
-      <button className={classNames(basicBtnCss, `border rounded-r-lg`)}>
+      <button
+        className={classNames(basicBtnCss, `border rounded-r-lg`)}
+        onClick={() => {
+          btnActions.uploadThemeFile();
+        }}
+      >
         <FaUpload />
       </button>
     </div>

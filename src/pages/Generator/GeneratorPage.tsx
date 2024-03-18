@@ -1,6 +1,5 @@
 import PaletteContainer from 'src/containers/PaletteContainer/PaletteContainer.tsx';
 import Info from './components/Info';
-import Toolbelt from './components/Toolbelt';
 import ToolbeltContainer from './components/ToolbeltContainer';
 
 export default function GeneratorPage() {
@@ -12,9 +11,7 @@ export default function GeneratorPage() {
     >
       <Info />
       <div className="shadow-lg rounded-lg">
-        <ToolbeltContainer>
-          <Toolbelt />
-        </ToolbeltContainer>
+        <ToolbeltContainer />
         <PaletteContainer />
       </div>
     </article>
