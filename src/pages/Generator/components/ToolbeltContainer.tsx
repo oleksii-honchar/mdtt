@@ -3,7 +3,7 @@ import { useAtom, useSetAtom } from 'jotai';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import { btnActionsAtom } from 'src/state/btn-actions-atom';
 import { coreColorsAtom, themeAtom } from 'src/state/color-atoms';
 import { CoreThemeColors, MDTailwindTheme, MDTailwindThemeJson } from 'src/theme/MDTailwindTheme';
@@ -54,8 +54,43 @@ export default function ToolbeltContainer() {
     logger.debug('Colors and theme deleted');
   }
 
-  function uploadThemeFile() {
-    logger.debug('[TBD] uploadThemeFile');
+  function uploadThemeFile(event: ChangeEvent<HTMLInputElement>) {
+    const logHeader = 'uploadThemeFile |';
+    const file = event.target.files![0];
+    if (!file) {
+      toast.error('No file selected');
+      return;
+    }
+
+    logger.debug(logHeader, `File: ${file.name}`);
+
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const fileContent = event.target?.result as string;
+      logger.debug(logHeader, 'Loaded content size:', fileContent.length);
+      let mdThemeJson = {};
+      try {
+        mdThemeJson = JSON.parse(fileContent);
+        const theme = new MDTailwindTheme(mdThemeJson);
+        const msg = 'Theme created from json file successfuly';
+        setTheme(theme.toJson());
+        logger.debug(logHeader, msg);
+        toast.success(msg);
+      } catch (err) {
+        logger.error(logHeader, err);
+        toast.error(`File schema validation failed: ${(err as Error).message}`);
+        return;
+      }
+    };
+
+    reader.onerror = (event) => {
+      const logTitle = 'Error occurred while reading the file.';
+      logger.error(logHeader, logTitle, event.target?.error);
+      toast.error(logTitle);
+    };
+
+    reader.readAsText(file);
   }
 
   useEffect(() => {

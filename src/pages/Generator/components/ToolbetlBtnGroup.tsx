@@ -51,14 +51,18 @@ export default function ToolbetlBtnGroup() {
       >
         <FaDownload />
       </button>
-      <button
-        className={classNames(basicBtnCss, `border rounded-r-lg`)}
-        onClick={() => {
-          btnActions.uploadThemeFile();
-        }}
-      >
-        <FaUpload />
-      </button>
+      <div className={classNames(basicBtnCss, `border rounded-r-lg`)}>
+        <label htmlFor="fileInput" className={`decoration-1 cursor-pointer`}>
+          <FaUpload />
+        </label>
+        <input
+          id="fileInput"
+          type="file"
+          accept=".json"
+          style={{ display: 'none' }}
+          onChange={btnActions.uploadThemeFile}
+        />
+      </div>
     </div>
   );
 }

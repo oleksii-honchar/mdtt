@@ -51,7 +51,7 @@ module.exports = {
         eslintIntegration: true,
         singleQuote: true,
         printWidth: 120,
-        quoteProps: "as-needed",
+        quoteProps: "consistent",
       },
     ],
     "react/no-unknown-property": ["error", { "ignore": ["css"] }],

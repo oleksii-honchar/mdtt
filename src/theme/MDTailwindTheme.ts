@@ -12,12 +12,12 @@ import { mdTailwindThemeSchema } from 'src/theme/mdTailwindThemeSchema';
 import { nl } from 'src/utils/native-lodash.ts';
 
 export interface CoreThemeColors {
-  primary: string;
-  secondary?: string;
-  tertiary?: string;
-  neutral?: string;
+  'primary': string;
+  'secondary'?: string;
+  'tertiary'?: string;
+  'neutral'?: string;
   'neutral-variant'?: string;
-  error?: string;
+  'error'?: string;
 }
 
 export interface MDTailwindThemeJson {
@@ -35,19 +35,29 @@ export interface MDTailwindThemeJson {
 }
 
 export class MDTailwindTheme {
+  theme: MDTailwindThemeJson;
   coreColors: CoreThemeColors;
   corePalette: CorePalette;
   lightScheme: Scheme;
   darkScheme: Scheme;
-  theme: MDTailwindThemeJson;
 
-  constructor(colors: CoreThemeColors) {
+  constructor(colors: CoreThemeColors, themeJson?: object);
+  constructor(themeJson: object, colors?: CoreThemeColors) {
     this.theme = <MDTailwindThemeJson>{};
 
+    if (themeJson) {
+      this.theme = themeJson as MDTailwindThemeJson;
+      this.validateTheme();
+      return;
+    }
+
+    if (!colors) {
+      return;
+    }
     // Create palette and scheme for primary color with rest of the colors inferred
 
     // Get random color if not present
-    const primary = argbFromHex(colors.primary || this.getRandomPrimaryColor());
+    const primary = argbFromHex(colors!.primary || this.getRandomPrimaryColor());
 
     // Generate tmp palette to get neutral and neutral-variant
     const tmpPalette = CorePalette.of(primary);
@@ -60,11 +70,11 @@ export class MDTailwindTheme {
 
     // reassuring that colors is set either by user or inferred using triadic rule
     this.coreColors = {
-      primary: colors.primary ?? hexFromArgb(primary),
-      secondary: colors.secondary ?? hexFromArgb(triadicColor1),
-      tertiary: colors.tertiary ?? hexFromArgb(triadicColor2),
-      error: colors.error ?? hexFromArgb(tmpScheme.error),
-      neutral: colors.neutral ?? hexFromArgb(nl.get(tmpScheme, 'neutral')),
+      'primary': colors.primary ?? hexFromArgb(primary),
+      'secondary': colors.secondary ?? hexFromArgb(triadicColor1),
+      'tertiary': colors.tertiary ?? hexFromArgb(triadicColor2),
+      'error': colors.error ?? hexFromArgb(tmpScheme.error),
+      'neutral': colors.neutral ?? hexFromArgb(nl.get(tmpScheme, 'neutral')),
       'neutral-variant': colors['neutral-variant'] ?? hexFromArgb(nl.get(tmpScheme, 'neutralVariant')),
     };
 
@@ -98,11 +108,11 @@ export class MDTailwindTheme {
 
   private composeTheme() {
     const coreColorsCodes = {
-      primary: 'a1',
-      secondary: 'a2',
-      tertiary: 'a3',
-      error: 'error',
-      neutral: 'n1',
+      'primary': 'a1',
+      'secondary': 'a2',
+      'tertiary': 'a3',
+      'error': 'error',
+      'neutral': 'n1',
       'neutral-variant': 'n2',
     };
 
