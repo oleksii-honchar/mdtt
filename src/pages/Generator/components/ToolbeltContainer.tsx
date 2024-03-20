@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { ChangeEvent, useEffect } from 'react';
 import { btnActionsAtom } from 'src/state/btn-actions-atom';
 import { coreColorsAtom, themeAtom } from 'src/state/color-atoms';
-import { CoreThemeColors, MDTailwindTheme, MDTailwindThemeJson } from 'src/theme/MDTailwindTheme';
+import { CoreThemeColors, MDTailwindTheme } from 'src/theme/MDTailwindTheme';
 import Toolbelt from './Toolbelt';
 
 const logger = new LoggerService();
@@ -50,8 +50,20 @@ export default function ToolbeltContainer() {
 
   function deleteColorsAndTheme() {
     resetCoreColors(null);
-    setTheme({} as MDTailwindThemeJson);
-    logger.debug('Colors and theme deleted');
+
+    const resetColor = '#000000';
+    const coreColors = {
+      'primary': resetColor,
+      'secondary': resetColor,
+      'tertiary': resetColor,
+      'error': resetColor,
+      'neutral': resetColor,
+      'neutral-variant': resetColor,
+    };
+    const theme = new MDTailwindTheme(coreColors as unknown as CoreThemeColors);
+
+    setTheme(theme.toJson());
+    logger.debug('Colors and theme reset');
   }
 
   function uploadThemeFile(event: ChangeEvent<HTMLInputElement>) {
@@ -72,7 +84,7 @@ export default function ToolbeltContainer() {
       let mdThemeJson = {};
       try {
         mdThemeJson = JSON.parse(fileContent);
-        const theme = new MDTailwindTheme(mdThemeJson);
+        const theme = new MDTailwindTheme(undefined, mdThemeJson);
         const msg = 'Theme created from json file successfuly';
         setTheme(theme.toJson());
         logger.debug(logHeader, msg);
@@ -93,6 +105,10 @@ export default function ToolbeltContainer() {
     reader.readAsText(file);
   }
 
+  /**
+   *  It appears that when function set in atom, it clousures the current state.
+   *  And when function is called it uses the state that was present when the function was set. So we need re-set the function with the new state.
+   * */
   useEffect(() => {
     setActions({
       deleteColorsAndTheme,
@@ -100,7 +116,7 @@ export default function ToolbeltContainer() {
       generateAndApplyTheme,
       uploadThemeFile,
     });
-  }, []);
+  }, [coreColors, theme]);
 
   return (
     <div

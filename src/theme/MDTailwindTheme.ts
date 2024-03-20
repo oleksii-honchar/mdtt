@@ -1,13 +1,16 @@
+import { LoggerService } from '@ciklum/logan';
 import {
   CorePalette,
   CorePaletteColors,
   Hct,
   Scheme,
+  TonalPalette,
   argbFromHex,
   hexFromArgb,
 } from '@material/material-color-utilities';
 
 import { mdTailwindThemeSchema } from 'src/theme/mdTailwindThemeSchema';
+import { StringIndex } from 'src/typings';
 
 import { nl } from 'src/utils/native-lodash.ts';
 
@@ -36,28 +39,25 @@ export interface MDTailwindThemeJson {
 
 export class MDTailwindTheme {
   theme: MDTailwindThemeJson;
-  coreColors: CoreThemeColors;
-  corePalette: CorePalette;
-  lightScheme: Scheme;
-  darkScheme: Scheme;
+  logger: LoggerService;
 
-  constructor(colors: CoreThemeColors, themeJson?: object);
-  constructor(themeJson: object, colors?: CoreThemeColors) {
+  constructor(colors?: CoreThemeColors, themeJson?: object) {
+    this.logger = new LoggerService();
+    this.logger.setTitle('MDTailwindTheme');
+
     this.theme = <MDTailwindThemeJson>{};
 
-    if (themeJson) {
+    if (themeJson && Object.keys(themeJson).length > 0) {
       this.theme = themeJson as MDTailwindThemeJson;
       this.validateTheme();
       return;
     }
 
-    if (!colors) {
-      return;
-    }
     // Create palette and scheme for primary color with rest of the colors inferred
 
     // Get random color if not present
-    const primary = argbFromHex(colors!.primary || this.getRandomPrimaryColor());
+    const primary = argbFromHex(colors?.primary || this.getRandomPrimaryColor());
+    this.logger.debug(`Primary color: ${hexFromArgb(primary)}`);
 
     // Generate tmp palette to get neutral and neutral-variant
     const tmpPalette = CorePalette.of(primary);
@@ -65,36 +65,50 @@ export class MDTailwindTheme {
 
     // Calculate the triadic colors
     const baseColor = Hct.fromInt(primary);
-    const triadicColor1 = Hct.from((baseColor.hue + 120) % 360, baseColor.chroma, baseColor.tone).toInt();
-    const triadicColor2 = Hct.from((baseColor.hue + 240) % 360, baseColor.chroma, baseColor.tone).toInt();
+    // analogous color
+    const secondaryColorGuess = Hct.from(
+      (baseColor.hue + 30 * this.getRandomPlusMinus()) % 360,
+      baseColor.chroma,
+      baseColor.tone,
+    ).toInt();
+    // tetraidic color
+    const tertiaryColorGuess = Hct.from(
+      (baseColor.hue + 120 * this.getRandomPlusMinus()) % 360,
+      baseColor.chroma,
+      baseColor.tone,
+    ).toInt();
 
     // reassuring that colors is set either by user or inferred using triadic rule
-    this.coreColors = {
-      'primary': colors.primary ?? hexFromArgb(primary),
-      'secondary': colors.secondary ?? hexFromArgb(triadicColor1),
-      'tertiary': colors.tertiary ?? hexFromArgb(triadicColor2),
-      'error': colors.error ?? hexFromArgb(tmpScheme.error),
-      'neutral': colors.neutral ?? hexFromArgb(nl.get(tmpScheme, 'neutral')),
-      'neutral-variant': colors['neutral-variant'] ?? hexFromArgb(nl.get(tmpScheme, 'neutralVariant')),
+    const coreColors = <CoreThemeColors>{
+      'primary': colors?.primary || hexFromArgb(primary),
+      'secondary': colors?.secondary || hexFromArgb(secondaryColorGuess),
+      'tertiary': colors?.tertiary || hexFromArgb(tertiaryColorGuess),
+      'error': colors?.error || hexFromArgb(tmpScheme.error),
+      'neutral': colors?.neutral || hexFromArgb(nl.get(tmpScheme, 'neutral')),
+      'neutral-variant': (!!colors && colors['neutral-variant']) || hexFromArgb(nl.get(tmpScheme, 'neutralVariant')),
     };
 
     // Finally cast colors to argb
     const argbCoreColors = <CorePaletteColors>{
-      primary: argbFromHex(this.coreColors.primary),
-      secondary: argbFromHex(this.coreColors.secondary as string),
-      tertiary: argbFromHex(this.coreColors.tertiary as string),
-      error: argbFromHex(this.coreColors.error as string),
-      neutral: argbFromHex(this.coreColors.neutral as string),
-      neutralVariant: argbFromHex(this.coreColors['neutral-variant'] as string),
+      primary: argbFromHex(coreColors.primary),
+      secondary: argbFromHex(coreColors.secondary as string),
+      tertiary: argbFromHex(coreColors.tertiary as string),
+      error: argbFromHex(coreColors.error as string),
+      neutral: argbFromHex(coreColors.neutral as string),
+      neutralVariant: argbFromHex(coreColors['neutral-variant'] as string),
     };
 
     // Building palette and scheme with actual colors
-    this.corePalette = CorePalette.fromColors(argbCoreColors);
-    this.lightScheme = Scheme.lightFromCorePalette(this.corePalette);
-    this.darkScheme = Scheme.darkFromCorePalette(this.corePalette);
+    const corePalette = CorePalette.fromColors(argbCoreColors);
+    const lightScheme = Scheme.lightFromCorePalette(corePalette);
+    const darkScheme = Scheme.darkFromCorePalette(corePalette);
 
-    this.composeTheme();
+    this.composeTheme({ coreColors, corePalette, lightScheme, darkScheme });
     this.validateTheme();
+  }
+
+  private getRandomPlusMinus() {
+    return Math.random() < 0.5 ? -1 : 1;
   }
 
   private getRandomInt(min: number, max: number): number {
@@ -106,8 +120,20 @@ export class MDTailwindTheme {
     return hexFromArgb(hct.toInt());
   }
 
-  private composeTheme() {
-    const coreColorsCodes = {
+  private composeTheme({
+    coreColors,
+    corePalette,
+    lightScheme,
+    darkScheme,
+  }: {
+    coreColors: CoreThemeColors;
+    corePalette: CorePalette;
+    lightScheme: Scheme;
+    darkScheme: Scheme;
+  }) {
+    const isBlack = Object.values(coreColors).every((color) => color === '#000000');
+
+    const coreColorsCodes: StringIndex = {
       'primary': 'a1',
       'secondary': 'a2',
       'tertiary': 'a3',
@@ -116,16 +142,16 @@ export class MDTailwindTheme {
       'neutral-variant': 'n2',
     };
 
-    const lightSchemeJson = this.lightScheme.toJSON();
-    const darkSchemeJson = this.darkScheme.toJSON();
+    const lightSchemeJson = lightScheme.toJSON();
+    const darkSchemeJson = darkScheme.toJSON();
 
     // utils to get tones for neutral and neutral-variant. idx = 0(light)-1000(dark)
-    const n1Tone = (idx: number) => hexFromArgb(this.corePalette.n1.tone(100 - idx / 10));
-    const n2Tone = (idx: number) => hexFromArgb(this.corePalette.n2.tone(100 - idx / 10));
+    const n1Tone = (idx: number) => hexFromArgb(grayscaleIt(corePalette.n1.tone(100 - idx / 10)));
+    const n2Tone = (idx: number) => hexFromArgb(grayscaleIt(corePalette.n2.tone(100 - idx / 10)));
 
     // edge-case: when only Primary color set and the rest is inferred neutral will be dark. Let's set them to light
-    this.coreColors.neutral = n1Tone(40);
-    this.coreColors['neutral-variant'] = n2Tone(40);
+    coreColors.neutral = n1Tone(40);
+    coreColors['neutral-variant'] = n2Tone(40);
 
     this.theme = {
       colors: {
@@ -136,24 +162,32 @@ export class MDTailwindTheme {
           },
           ref: {
             pal: {
-              ...this.coreColors,
+              ...coreColors,
             },
           },
         },
       },
     };
 
+    // grayscale colors if primary,sec,ter,err is black
+    function grayscaleIt(argb: number) {
+      if (!isBlack) return argb;
+
+      const hct = Hct.fromInt(argb);
+      hct.chroma = 0;
+      return hct.toInt();
+    }
     // converting sys-light semantic colors to hex
     Object.keys(lightSchemeJson).forEach((key) => {
       const argb = nl.get(lightSchemeJson, key) as number;
-      const hex = hexFromArgb(argb);
+      const hex = hexFromArgb(grayscaleIt(argb));
       nl.set(this.theme, `colors.md.sys.light.${nl.camelToKebab(key)}`, hex);
     });
 
     // converting sys-dark semantic colors to hex
     Object.keys(darkSchemeJson).forEach((key) => {
       const argb = nl.get(darkSchemeJson, key) as number;
-      const hex = hexFromArgb(argb);
+      const hex = hexFromArgb(grayscaleIt(argb));
       nl.set(this.theme, `colors.md.sys.dark.${nl.camelToKebab(key)}`, hex);
     });
 
@@ -182,10 +216,10 @@ export class MDTailwindTheme {
     // converting color shades to hex
     Object.keys(coreColorsCodes).forEach((key) => {
       // key=primary -> a1
-      const tonalPalette = this.corePalette[coreColorsCodes[key]];
+      const tonalPalette = nl.get(corePalette, coreColorsCodes[key] as string) as TonalPalette;
       for (let idx = 0; idx < schemeColorShadeCodes.length; idx++) {
         const argb = tonalPalette.tone(schemeColorShadeCodes[idx]);
-        const hex = hexFromArgb(argb);
+        const hex = hexFromArgb(grayscaleIt(argb));
         nl.set(this.theme, `colors.md.ref.pal.${nl.camelToKebab(key)}${themeColorShadeCodes[idx]}`, hex);
       }
     });

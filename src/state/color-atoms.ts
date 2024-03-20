@@ -15,21 +15,21 @@ export const coreColorsAtom = atom(
   (get) =>
     Object.fromEntries(
       Object.entries({
-        primary: get(primaryCoreColorAtom),
-        secondary: get(secondaryCoreColorAtom),
-        tertiary: get(tertiraryCoreColorAtom),
-        error: get(errorCoreColorAtom),
-        neutral: get(neutralCoreColorAtom),
+        'primary': get(primaryCoreColorAtom),
+        'secondary': get(secondaryCoreColorAtom),
+        'tertiary': get(tertiraryCoreColorAtom),
+        'error': get(errorCoreColorAtom),
+        'neutral': get(neutralCoreColorAtom),
         'neutral-variant': get(neutralVariantCoreColorAtom),
       }).filter(([key, value]) => value),
     ),
-  (get, set, newPrice) => {
-    set(primaryCoreColorAtom, initialColor);
-    set(secondaryCoreColorAtom, initialColor);
-    set(tertiraryCoreColorAtom, initialColor);
-    set(errorCoreColorAtom, initialColor);
-    set(neutralCoreColorAtom, initialColor);
-    set(neutralVariantCoreColorAtom, initialColor);
+  (get, set, value) => {
+    set(primaryCoreColorAtom, (value as string) || initialColor);
+    set(secondaryCoreColorAtom, (value as string) || initialColor);
+    set(tertiraryCoreColorAtom, (value as string) || initialColor);
+    set(errorCoreColorAtom, (value as string) || initialColor);
+    set(neutralCoreColorAtom, (value as string) || initialColor);
+    set(neutralVariantCoreColorAtom, (value as string) || initialColor);
   },
 );
 
