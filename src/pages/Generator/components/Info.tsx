@@ -5,6 +5,7 @@ export default function Info() {
       className={`
           w-full max-w-3xl md:max-w-4xl lg:max-w-6xl
           px-2 py-4 flex flex-col flex-grow justify-center items-center
+          text-md-sys-light-on-primary
         `}
     >
       <h1 className="text-3xl font-medium mt-4 mb-4">Material Design Tailwind Tokens</h1>

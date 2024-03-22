@@ -2,7 +2,7 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 const { blablo } = require("./scripts/blablo.ts");
 
-const m3DesignTokens = require("./src/stylesheets/mdpal-design-tokens-v1.ts");
+const mdTheme = require("./src/stylesheets/md-theme-v2.json");
 
 const logHeader = "[tailwind-css:config]".cyan;
 blablo.log(logHeader, "loading config").finish();
@@ -17,7 +17,7 @@ module.exports = {
   },
   theme: {
     extend: {
-      colors: m3DesignTokens.colors,
+      colors: mdTheme.colors,
       fontFamily: {
         sans: ["Inter var", ...defaultTheme.fontFamily.sans],
       },

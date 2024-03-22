@@ -19,9 +19,12 @@ export default function Palette(props: InferProps<typeof Palette.propTypes>) {
     hover:border-md-sys-light-outline-variant
     
     text-sm font-medium
-    text-md-sys-light-primary 
-    hover:text-md-sys-light-on-primary-container 
-    hover:bg-md-sys-light-primary-container
+
+    text-md-sys-light-primary
+    hover:text-md-sys-light-on-primary
+  
+    hover:bg-md-sys-light-primary
+    
     active:bg-md-ref-pal-primary200
     ui-selected:bg-md-sys-light-background
     ui-selected:text-md-sys-light-on-background

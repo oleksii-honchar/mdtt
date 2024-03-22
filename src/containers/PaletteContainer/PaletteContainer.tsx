@@ -68,8 +68,7 @@ export default function PaletteContainer() {
       className={`
           w-full max-w-3xl md:max-w-4xl lg:max-w-6xl
           p-2 flex flex-col flex-grow
-          backdrop-blur-sm
-          bg-md-sys-light-surface/60
+          bg-md-sys-light-surface-container-lowest
           rounded-bl-lg rounded-br-lg
         `}
     >

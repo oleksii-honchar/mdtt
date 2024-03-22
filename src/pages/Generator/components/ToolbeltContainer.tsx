@@ -125,8 +125,9 @@ export default function ToolbeltContainer() {
           w-full max-w-3xl md:max-w-4xl lg:max-w-6xl
           flex flex-col flex-grow justify-center items-center
           rounded-tl-lg rounded-tr-lg
-          backdrop-blur-sm shadow-sm  
+          relative
           bg-md-sys-light-surface-container-lowest
+          shadow-sm 
         `}
     >
       <Toolbelt />

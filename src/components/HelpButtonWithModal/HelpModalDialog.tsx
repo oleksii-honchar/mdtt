@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { Dialog, Transition } from "@headlessui/react";
-import PropTypes, { InferProps } from "prop-types";
-import { Fragment } from "react";
+import { Dialog, Transition } from '@headlessui/react';
+import PropTypes, { InferProps } from 'prop-types';
+import { Fragment } from 'react';
 
 HelpModalDialog.propTypes = {
   isOpen: PropTypes.bool,
@@ -37,7 +37,7 @@ export function HelpModalDialog(props: InferProps<typeof HelpModalDialog.propTyp
             <Dialog.Panel
               className={`
                 relative transform overflow-hidden rounded-lg 
-                bg-md-sys-light-surface text-left shadow-xl transition-all
+                bg-md-sys-light-surface-container-lowest text-left shadow-xl transition-all
                 text-md-sys-light-on-surface
                 w-full max-w-2xl
               `}
@@ -74,21 +74,27 @@ export function HelpModalDialog(props: InferProps<typeof HelpModalDialog.propTyp
                 </div>
                 <div
                   className={`
-                      px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6
-                      rounded-b-lg
-                      bg-md-sys-light-surface-container-lowest 
+                    flex flex-grow items-center justify-center
                   `}
                 >
                   <button
                     type="button"
                     className={`
-                      inline-flex w-full justify-center rounded-md px-3 py-2 sm:ml-3 sm:w-auto
-                      text-sm font-semibold text-md-sys-light-on-primary-container
-                      bg-md-sys-light-primary-container
+                      inline-flex justify-center rounded-md py-2 
+                      w-40
+                      text-sm font-semibold 
+                      border border-md-sys-light-outline-variant
+                      
+                      text-md-sys-light-primary
+                      hover:text-md-sys-light-on-primary
+                    
+                      bg-md-ref-pal-primary10
+                      hover:bg-md-sys-light-primary
+                      active:bg-md-ref-pal-primary200
+            
                       shadow-sm
                       transition-colors duration-200 ease-in-out
-                      hover:bg-md-sys-light-primary/80
-                      hover:text-md-sys-light-on-primary/80
+                      focus:outline-none
                     `}
                     onClick={() => props.setIsOpen!(false)}
                   >
