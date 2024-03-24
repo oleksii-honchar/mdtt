@@ -6,7 +6,7 @@ export function Footer() {
     <div
       id="Footer"
       className={`
-        h-12 w-full mt-4
+        h-12 w-full
         backdrop-blur-sm 
         bg-md-sys-light-surface-container-lowest
       `}

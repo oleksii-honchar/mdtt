@@ -1,5 +1,4 @@
 import PaletteContainer from 'src/containers/PaletteContainer/PaletteContainer.tsx';
-import Info from './components/Info';
 import ToolbeltContainer from './components/ToolbeltContainer';
 
 export default function GeneratorPage() {
@@ -9,8 +8,7 @@ export default function GeneratorPage() {
         flex flex-col items-center w-full
       `}
     >
-      <Info />
-      <div className="shadow-lg rounded-lg">
+      <div className="shadow-lg rounded-lg my-4">
         <ToolbeltContainer />
         <PaletteContainer />
       </div>
