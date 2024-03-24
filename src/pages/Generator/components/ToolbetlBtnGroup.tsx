@@ -6,6 +6,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/Tooltip'
 
 import { btnActionsAtom } from 'src/state/btn-actions-atom';
 import { classNames } from 'src/utils/classNames';
+import { HelpBtn } from './HelpButtonWithModal/HelpBtn';
 
 const logger = new LoggerService();
 logger.setTitle('ToolbetlBtnGroup');
@@ -32,7 +33,7 @@ export default function ToolbetlBtnGroup() {
   `;
 
   return (
-    <div id="ToolbetlBtnGroup" className="inline-flex items-center rounded-md shadow-sm">
+    <div id="ToolbetlBtnGroup" className="inline-flex items-center rounded-md">
       {/* Generate theme button */}
       <Tooltip>
         <TooltipTrigger
@@ -84,6 +85,8 @@ export default function ToolbetlBtnGroup() {
         </TooltipTrigger>
         <TooltipContent className="Tooltip">Upload and apply theme file</TooltipContent>
       </Tooltip>
+
+      <HelpBtn />
     </div>
   );
 }

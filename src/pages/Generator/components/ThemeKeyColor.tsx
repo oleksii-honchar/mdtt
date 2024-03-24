@@ -58,7 +58,7 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
         className={`
           flex flex-row justify-start items-center
           bg-md-sys-light-surface-lowest
-          border border-md-sys-light-outline-variant/50
+          border border-md-sys-light-outline-variant/30
           rounded-lg mx-2 p-2
         `}
         onClick={() => {

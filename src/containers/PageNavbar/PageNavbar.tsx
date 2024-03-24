@@ -1,11 +1,11 @@
+import { Title } from '../../components/Title.tsx';
 import { PageNavItems } from './PageNavItems.tsx';
-import { Title } from './Title.tsx';
 export function PageNavbar() {
   return (
     <div
       id="PageNavbar"
       className={`
-        w-full mx-auto shadow-sm  
+        w-full mx-auto shadow-lg  
         flex items-center justify-center
         bg-md-sys-light-surface-container-lowest
       `}

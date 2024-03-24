@@ -25,9 +25,9 @@ export function HelpBtn() {
           border border-md-sys-light-outline-variant
           flex flex-row items-center justify-center
           text-sm font-medium
-          rounded-full cursor-pointer transition-all
-          shadow-sm
+          rounded-lg cursor-pointer transition-all
           focus:outline-none
+          ml-2
         `}
       >
         ?

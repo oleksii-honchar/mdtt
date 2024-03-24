@@ -2,7 +2,7 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 const { blablo } = require("./scripts/blablo.ts");
 
-const mdTheme = require("./src/stylesheets/md-theme-v2.json");
+const mdTheme = require("./src/stylesheets/md-theme-v3-bw.json");
 
 const logHeader = "[tailwind-css:config]".cyan;
 blablo.log(logHeader, "loading config").finish();

@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import { Footer } from 'src/components/Footer.tsx';
-import { PageNavbar } from 'src/components/PageNavbar.tsx';
+import { PageNavbar } from 'src/containers/PageNavbar/PageNavbar';
 import { themeAtom } from 'src/state/color-atoms';
 import { nl } from 'src/utils/native-lodash';
 

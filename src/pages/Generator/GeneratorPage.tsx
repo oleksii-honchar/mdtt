@@ -10,7 +10,7 @@ export default function GeneratorPage() {
       `}
     >
       <Info />
-      <div className="shadow-sm rounded-lg">
+      <div className="shadow-lg rounded-lg">
         <ToolbeltContainer />
         <PaletteContainer />
       </div>

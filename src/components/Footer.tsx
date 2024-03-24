@@ -21,7 +21,7 @@ export function Footer() {
         `}
         >
           <span className={`flex justify-center gap-2 items-center`}>
-            <FaCopyright className={``} /> {moment().format('YYYY')} mdtt
+            <FaCopyright className={``} /> {moment().format('YYYY')} MDTT, Oleksíi Honchar
           </span>
           <span
             className={`

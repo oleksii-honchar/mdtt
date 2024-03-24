@@ -1,5 +1,5 @@
-import { LoggerService } from "@ciklum/logan";
-import type { Placement } from "@floating-ui/react";
+import { LoggerService } from '@ciklum/logan';
+import type { Placement } from '@floating-ui/react';
 import {
   FloatingArrow,
   FloatingPortal,
@@ -18,12 +18,12 @@ import {
   useMergeRefs,
   useRole,
   useTransitionStyles,
-} from "@floating-ui/react";
-import * as React from "react";
-import { useRef } from "react";
+} from '@floating-ui/react';
+import * as React from 'react';
+import { useRef } from 'react';
 
 const logger = new LoggerService();
-logger.setTitle("Tooltip");
+logger.setTitle('Tooltip');
 
 interface TooltipOptions {
   initialOpen?: boolean;
@@ -36,7 +36,7 @@ interface TooltipOptions {
 
 export function useTooltip({
   initialOpen = false,
-  placement = "top",
+  placement = 'top',
   open: controlledOpen,
   onOpenChange: setControlledOpen,
   enableHandleClose = false,
@@ -66,7 +66,7 @@ export function useTooltip({
       offset(ARROW_HEIGHT + GAP),
       autoPlacement({
         crossAxis: true,
-        allowedPlacements: ["bottom", "bottom-start", "bottom-end"],
+        allowedPlacements: ['bottom', 'bottom-start', 'bottom-end'],
       }),
       shift({ padding: 5 }),
     ],
@@ -89,7 +89,7 @@ export function useTooltip({
     enabled: controlledOpen == null,
   });
   const dismiss = useDismiss(context);
-  const role = useRole(context, { role: "tooltip" });
+  const role = useRole(context, { role: 'tooltip' });
 
   const interactions = useInteractions([hover, focus, dismiss, role, click]);
 
@@ -133,7 +133,7 @@ export const useTooltipContext = () => {
   const context = React.useContext(TooltipContext);
 
   if (context == null) {
-    throw new Error("Tooltip components must be wrapped in <Tooltip />");
+    throw new Error('Tooltip components must be wrapped in <Tooltip />');
   }
 
   return context;
@@ -160,7 +160,7 @@ export const TooltipTrigger = React.forwardRef<HTMLElement, React.HTMLProps<HTML
           ref,
           ...props,
           ...children.props,
-          "data-state": context.open ? "open" : "closed",
+          'data-state': context.open ? 'open' : 'closed',
         }),
       );
     }
@@ -169,7 +169,7 @@ export const TooltipTrigger = React.forwardRef<HTMLElement, React.HTMLProps<HTML
       <button
         ref={ref}
         // The user can style the trigger based on the state
-        data-state={context.open ? "open" : "closed"}
+        data-state={context.open ? 'open' : 'closed'}
         {...context.getReferenceProps(props)}
       >
         {children}
@@ -202,13 +202,7 @@ export const TooltipContent = React.forwardRef<HTMLDivElement, React.HTMLProps<H
           }}
           {...context.getFloatingProps(props)}
         >
-          <FloatingArrow
-            ref={context.arrowRef}
-            context={context}
-            tipRadius={2}
-            fill="#C1C7CE"
-            className="tooltip-arrow"
-          />
+          <FloatingArrow ref={context.arrowRef} context={context} tipRadius={2} className="Tooltip-arrow" />
           {children}
         </div>
       )}
