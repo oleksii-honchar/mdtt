@@ -2,14 +2,14 @@ import { LoggerService } from '@ciklum/logan';
 import { css } from '@emotion/react';
 import { Atom, useAtom } from 'jotai';
 import { HexColorInput, HexColorPicker } from 'powerful-color-picker';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { FaRegTrashCan } from 'react-icons/fa6';
 import { MdNotInterested } from 'react-icons/md';
 
 import { classNames } from 'src/utils/classNames';
 
-import { Tooltip, TooltipContent, TooltipTrigger, useTooltip } from 'src/components/Tooltip.tsx';
+import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/Tooltip.tsx';
 
 const logger = new LoggerService();
 logger.setTitle('ThemeKeyColor');
@@ -22,7 +22,8 @@ interface ThemeKeyColorParams {
 export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) {
   const [themeColor, setThemeColor]: [string, (value: string) => void] = useAtom(colorAtom);
   const [colorPickerColor, setColorPickerColor] = useState<string>(themeColor);
-  const { open, setOpen } = useTooltip();
+
+  const ref = useRef();
 
   const NoColor = () => <MdNotInterested className="text-md-sys-light-primary" />;
 
@@ -34,6 +35,10 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
   useEffect(() => {
     setColorPickerColor(themeColor);
   }, [themeColor]);
+
+  useEffect(() => {
+    logger.info(`open=${open}`);
+  }, [open]);
 
   const style = css`
     background-color: ${themeColor};
@@ -61,9 +66,6 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
           border border-md-sys-light-outline-variant/30
           rounded-lg mx-2 p-2
         `}
-        onClick={() => {
-          setOpen(!open);
-        }}
       >
         <div
           css={style}
@@ -84,6 +86,7 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
           shadow-md rounded-lg p-4
           bg-md-sys-light-background
         `}
+        ref={ref}
       >
         <HexColorPicker color={colorPickerColor} onChange={setColorPickerColor} />
         <div className="w-full h-10 flex flex-row justify-between items-end">
@@ -120,6 +123,8 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
               )}
               onClick={() => {
                 setThemeColor(colorPickerColor);
+                // @ts-ignore
+                if (ref.current) ref.current.style!.display = 'none';
                 logger.info(colorPickerColor);
               }}
             >
