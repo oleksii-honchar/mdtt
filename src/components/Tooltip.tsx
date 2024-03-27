@@ -32,6 +32,7 @@ interface TooltipOptions {
   onOpenChange?: (open: boolean) => void;
   enableHandleClose?: boolean;
   debug?: boolean;
+  useArrow?: boolean;
 }
 
 export function useTooltip({
@@ -41,6 +42,7 @@ export function useTooltip({
   onOpenChange: setControlledOpen,
   enableHandleClose = false,
   debug = false,
+  useArrow = true,
 }: TooltipOptions = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
 
@@ -60,13 +62,15 @@ export function useTooltip({
     onOpenChange: setOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
-      arrow({
-        element: arrowRef.current,
-      }),
+      useArrow &&
+        arrow({
+          element: arrowRef.current,
+        }),
       offset(ARROW_HEIGHT + GAP),
       autoPlacement({
         crossAxis: true,
-        allowedPlacements: ['bottom', 'bottom-start', 'bottom-end'],
+        allowedPlacements: ['bottom'],
+        // allowedPlacements: ['bottom', 'bottom-start', 'bottom-end'],
       }),
       shift({ padding: 5 }),
     ],
@@ -112,6 +116,7 @@ export function useTooltip({
   return React.useMemo(
     () => ({
       open,
+      useArrow,
       setOpen,
       arrowRef,
       ...interactions,
@@ -121,7 +126,7 @@ export function useTooltip({
         style: styles,
       },
     }),
-    [open, setOpen, interactions, data, arrowRef, styles, isMounted],
+    [open, setOpen, interactions, data, arrowRef, styles, isMounted, useArrow],
   );
 }
 
@@ -202,7 +207,10 @@ export const TooltipContent = React.forwardRef<HTMLDivElement, React.HTMLProps<H
           }}
           {...context.getFloatingProps(props)}
         >
-          <FloatingArrow ref={context.arrowRef} context={context} tipRadius={2} className="Tooltip-arrow" />
+          {context.useArrow && (
+            <FloatingArrow ref={context.arrowRef} context={context} tipRadius={2} className="Tooltip-arrow" />
+          )}
+
           {children}
         </div>
       )}

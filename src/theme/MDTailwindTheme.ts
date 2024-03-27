@@ -63,14 +63,16 @@ export class MDTailwindTheme {
     const tmpPalette = CorePalette.of(primary);
     const tmpScheme = Scheme.lightFromCorePalette(tmpPalette);
 
-    // Calculate the triadic colors
+    // Calculate accent colors
     const baseColor = Hct.fromInt(primary);
+
     // analogous color
     const secondaryColorGuess = Hct.from(
       (baseColor.hue + 30 * this.getRandomPlusMinus()) % 360,
       baseColor.chroma,
       baseColor.tone,
     ).toInt();
+
     // tetraidic color
     const tertiaryColorGuess = Hct.from(
       (baseColor.hue + 120 * this.getRandomPlusMinus()) % 360,
@@ -131,6 +133,15 @@ export class MDTailwindTheme {
     lightScheme: Scheme;
     darkScheme: Scheme;
   }) {
+    // grayscale colors if primary,sec,ter,err is black
+    function grayscaleIt(argb: number) {
+      if (!isBlack) return argb;
+
+      const hct = Hct.fromInt(argb);
+      hct.chroma = 0;
+      return hct.toInt();
+    }
+
     const isBlack = Object.values(coreColors).every((color) => color === '#000000');
 
     const coreColorsCodes: StringIndex = {
@@ -169,14 +180,6 @@ export class MDTailwindTheme {
       },
     };
 
-    // grayscale colors if primary,sec,ter,err is black
-    function grayscaleIt(argb: number) {
-      if (!isBlack) return argb;
-
-      const hct = Hct.fromInt(argb);
-      hct.chroma = 0;
-      return hct.toInt();
-    }
     // converting sys-light semantic colors to hex
     Object.keys(lightSchemeJson).forEach((key) => {
       const argb = nl.get(lightSchemeJson, key) as number;

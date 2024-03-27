@@ -56,7 +56,7 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
   `;
 
   return (
-    <Tooltip enableHandleClose>
+    <Tooltip enableHandleClose useArrow={false}>
       {/* Color & it's name */}
       <TooltipTrigger
         data-id="ThemeKeyColor"
@@ -83,8 +83,9 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
         className={`
           flex flex-col justify-center items-center
           Tooltip
-          shadow-md rounded-lg p-4
-          bg-md-sys-light-background
+          shadow-lg rounded-lg p-4
+          bg-md-sys-light-surface
+          border border-md-sys-light-outline-variant/60
         `}
         ref={ref}
       >
@@ -92,7 +93,7 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
         <div className="w-full h-10 flex flex-row justify-between items-end">
           {/* Color preview */}
           <div className="flex flex-row">
-            <div className="flex rounded-l-md h-8 w-5 items-center justify-end bg-md-sys-light-background">
+            <div className="flex rounded-l-md h-8 w-5 items-center justify-end bg-md-sys-light-surface-container">
               {/* Color preview */}
               {!colorPickerColor ? (
                 <NoColor />
@@ -108,7 +109,7 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
               )}
             </div>
             <HexColorInput
-              className="w-16 h-8 text-center rounded-r-md block"
+              className="w-16 h-8 text-center rounded-r-md block bg-md-sys-light-surface-container text-md-sys-light-on-surface"
               color={colorPickerColor || '00000'}
               onChange={setColorPickerColor}
             />

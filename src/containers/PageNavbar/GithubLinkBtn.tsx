@@ -12,9 +12,10 @@ export function GithubLinkBtn() {
           href="https://github.com/oleksii-honchar/mdtt"
           target="_blank"
           className={`
-          h-8 w-8          
+          h-8          
           flex flex-row items-center justify-center
           focus:outline-none
+          border-l pl-4
         `}
           rel="noreferrer"
         >
