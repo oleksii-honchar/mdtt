@@ -51,24 +51,26 @@ export const moduleConfig = (env: any = {}) => {
             loader: "file-loader",
             options: {
               name: "[name].[ext]",
-              outputPath: "fonts/",
+              outputPath: "/assets/fonts/",
             },
           },
         },
         {
           test: /\.(jpe?g|png|svg|gif|cur)$/,
-          exclude: /icons/,
+          exclude: /favicons/,
           use: {
             loader: "file-loader",
             options: {
               name: "[name].[ext]",
-              outputPath: "images/",
+              outputPath: "/assets/images/",
             },
           },
         },
         {
+          // https://www.npmjs.com/package/svg-inline-loader
+          // should be called explicitly on svg filesin tsx files
           test: /\.svg/,
-          include: /icons/,
+          include: [/assets\/favicons/, /assets\/images/],
           use: [
             {
               loader: "svg-inline-loader",

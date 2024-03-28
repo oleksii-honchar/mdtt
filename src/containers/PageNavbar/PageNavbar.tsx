@@ -1,5 +1,7 @@
-import { Title } from '../../components/Title.tsx';
+import { Logo } from 'src/components/Logo.tsx';
+import { Title } from 'src/components/Title.tsx';
 import { PageNavItems } from './PageNavItems.tsx';
+
 export function PageNavbar() {
   return (
     <div
@@ -14,10 +16,11 @@ export function PageNavbar() {
         className={`
           w-full  px-2 
           max-w-3xl md:max-w-4xl lg:max-w-6xl 
-          relative flex h-10 
-          items-center justify-between
+          relative flex h-10 space-x-2
+          items-center justify-start
         `}
       >
+        <Logo />
         <Title />
         <PageNavItems />
       </div>

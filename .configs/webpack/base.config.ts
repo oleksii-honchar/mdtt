@@ -49,7 +49,7 @@ export const baseConfig = (env: any = {}) => {
       patterns: [
         {
           from: "./src/assets/favicons",
-          to: "../favicons",
+          to: "../assets/favicons",
         },
       ],
     }),

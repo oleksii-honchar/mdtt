@@ -10,6 +10,7 @@ project.env
 backup/*
 coverage
 dist/*
+dist
 devops/version/
 !dist/.gitkeep
 logs/*
