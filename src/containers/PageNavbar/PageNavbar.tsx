@@ -5,7 +5,7 @@ export function PageNavbar() {
     <div
       id="PageNavbar"
       className={`
-        w-full mx-auto shadow-lg h-10
+        w-full mx-auto shadow-md h-10
         flex items-center justify-center
         bg-md-sys-light-surface-container-lowest
       `}

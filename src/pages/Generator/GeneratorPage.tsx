@@ -8,7 +8,7 @@ export default function GeneratorPage() {
         flex flex-col items-center w-full
       `}
     >
-      <div className="shadow-lg rounded-lg my-4">
+      <div className="rounded-lg my-4">
         <ToolbeltContainer />
         <PaletteContainer />
       </div>
