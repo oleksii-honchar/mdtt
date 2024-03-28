@@ -7,8 +7,6 @@ import { FaCheck } from 'react-icons/fa';
 import { FaRegTrashCan } from 'react-icons/fa6';
 import { MdNotInterested } from 'react-icons/md';
 
-import { classNames } from 'src/utils/classNames';
-
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/Tooltip.tsx';
 
 const logger = new LoggerService();
@@ -116,12 +114,9 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
           </div>
 
           {/* Action buttons */}
-          <div className="inline-flex items-center rounded-md shadow-sm">
+          <div className="tw-btn-group">
             <button
-              className={classNames(
-                colorPickerBtnsCommonCss,
-                `h-8 border border-r-0 rounded-l-lg w-18 flex flex-row justify-center items-center`,
-              )}
+              className="w-8 tw-btn-group-item tw-p-sm"
               onClick={() => {
                 setThemeColor(colorPickerColor);
                 // @ts-ignore
@@ -132,10 +127,7 @@ export default function ThemeKeyColor({ name, colorAtom }: ThemeKeyColorParams) 
               <FaCheck />
             </button>
             <button
-              className={classNames(
-                colorPickerBtnsCommonCss,
-                `h-8 border  rounded-r-lg w-18 flex flex-row justify-center items-center`,
-              )}
+              className="w-8 tw-btn-group-item tw-p-sm"
               onClick={() => {
                 resetColor();
                 logger.info('color reset');

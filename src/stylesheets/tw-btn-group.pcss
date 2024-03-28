@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.tw-btn-group {
+  @apply 
+  inline-flex items-center
+}
+
+.tw-btn-group .tw-btn-group-item {
+  @apply
+  /* border rules */
+  border-y
+
+  first:rounded-l-lg first:border-l
+  odd:border-r even:border-r 
+  last:rounded-r-lg last:border-r
+
+  /* common button style */
+  inline-flex space-x-1 items-center
+  transition-all duration-200
+  
+  border-md-sys-light-outline-variant
+  
+  text-sm font-medium 
+  
+  text-md-sys-light-primary
+  hover:text-md-sys-light-on-primary
+
+  bg-md-ref-pal-primary10
+  hover:bg-md-sys-light-primary
+  
+  active:bg-md-ref-pal-primary200
+  focus:outline-none;
+
+  &.tw-p-md {
+    @apply px-4 py-2;
+  }
+  &.tw-p-sm {
+    @apply px-2 py-2;
+  }
+}

@@ -7,7 +7,7 @@ import {
   tertiraryCoreColorAtom,
 } from 'src/state/color-atoms';
 import ThemeKeyColor from './ThemeKeyColor';
-import ToolbetlBtnGroup from './ToolbetlBtnGroup';
+import ToolbetlBtnGroup from './ToolbeltBtnGroup';
 
 export default function Toolbelt() {
   return (

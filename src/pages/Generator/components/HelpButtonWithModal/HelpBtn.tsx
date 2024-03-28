@@ -27,7 +27,6 @@ export function HelpBtn() {
           text-sm font-medium
           rounded-lg cursor-pointer transition-all
           focus:outline-none
-          ml-2
         `}
       >
         ?
