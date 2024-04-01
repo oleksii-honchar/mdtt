@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import type { StringIndex } from 'src/typings/index.d.ts';
 
-import { AnyObject, nl } from 'src/utils/native-lodash.ts';
+import { nl } from 'src/utils/native-lodash.ts';
 
 import { FileContext } from 'src/contexts/FileContext.tsx';
 import { mdTailwindThemeSchema } from 'src/theme/mdTailwindThemeSchema.ts';
@@ -54,9 +54,6 @@ export default function PaletteContainer() {
       setMdTokens(theme);
       const msg = 'Theme updated';
       logger.debug(msg);
-      if (!nl.isObjectEmpty(theme as unknown as AnyObject)) {
-        toast.success(msg);
-      }
     },
     300,
     [theme],

@@ -21,6 +21,9 @@ export default function ToolbeltContainer() {
     const theme = new MDTailwindTheme(coreColors as unknown as CoreThemeColors);
 
     setTheme(theme.toJson());
+    const msg = 'Theme generated successfully!';
+    logger.debug(msg);
+    toast.success(msg);
   }
 
   function getFullName() {
@@ -63,7 +66,9 @@ export default function ToolbeltContainer() {
     const theme = new MDTailwindTheme(coreColors as unknown as CoreThemeColors);
 
     setTheme(theme.toJson());
-    logger.debug('Colors and theme reset');
+    const msg = 'Colors and theme reset successfully!';
+    logger.debug(msg);
+    toast.success(msg);
   }
 
   function uploadThemeFile(event: ChangeEvent<HTMLInputElement>) {
