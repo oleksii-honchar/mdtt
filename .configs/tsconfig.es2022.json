@@ -13,7 +13,6 @@
       "blablo": ["./scripts/blablo.ts"],
       "package.json": ["./package.json"]
     },
-    "plugins": [{ "name": "typescript-plugin-css-modules" }],
     "target": "ES2022",
   },
   "include": [

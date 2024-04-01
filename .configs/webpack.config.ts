@@ -12,6 +12,7 @@ import { prodConfig } from "./webpack/prod.config.ts";
 import { externalsConfig } from "./webpack/externals.config.ts";
 import GenerateIndexHTML from "./webpack/plugins/GenerateIndexHTML.plugin.ts";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import type { AnyObject } from "src/typings/index.d.ts";
 
 colors.enable();
 const logHeader = "[webpack:config]".cyan;
@@ -22,16 +23,37 @@ blablo.cleanLog(logHeader, `starting "${pkg.name}" config composition`);
 // `LOG_LEVEL` = error | warn | info | debug
 
 export const configFactory = (env: any = {}, argv: { mode: string; launchServer?: boolean }) => {
+  // setting defaults and apply external values if any
   env = {
     NODE_ENV: "development",
     BUILD_ANALYZE: null,
+    BUILD_LEGACY: false,
     TS_LOADER: "esbuild", // or ts-build
     ...env,
   };
 
   blablo.cleanLog(logHeader, `using "${env.NODE_ENV}" mode`);
+  blablo.cleanLog(logHeader, `BUILD_LEGACY = "${env.BUILD_LEGACY}"`);
   // blablo.cleanLog(env);
   // blablo.cleanLog(argv);
+
+  let envES2016: AnyObject = {}, cfgES2016: AnyObject = {};
+
+  if (env.NODE_ENV === "production" || env.BUILD_LEGACY === "true") {
+    // for prod will add es2016 cfg
+    envES2016 = { ...env, TS_TARGET: "es2016" };
+    cfgES2016 = baseConfig(envES2016); // @ts-ignore
+    cfgES2016 = merge(cfgES2016, moduleConfig(envES2016)); // @ts-ignore
+    cfgES2016 = merge(cfgES2016, cssModuleConfig(env)); // @ts-ignore
+    cfgES2016 = merge(cfgES2016, externalsConfig);
+    cfgES2016 = merge(cfgES2016, {
+      // @ts-ignore
+      entry: {
+        app: "./src/index.es2016.tsx",
+      },
+    }) as AnyObject;
+
+  }
 
   const envES2022 = { ...env, TS_TARGET: "es2022" };
 
@@ -70,24 +92,29 @@ export const configFactory = (env: any = {}, argv: { mode: string; launchServer?
     });
   }
 
+  const msgCompleted = "config composition completed";
   if (env.NODE_ENV !== "production" || argv.launchServer === true) {
-    blablo.cleanLog("[webpack:config]".cyan, "config composition completed");
+    blablo.cleanLog("[webpack:config]".cyan, msgCompleted);
     return cfgES2022;
+  } else if (env.BUILD_LEGACY === "true" && envES2016) {
+    cfgES2016 = merge(cfgES2016, cssModuleConfig(env)) as AnyObject;
+    cfgES2016 = merge(cfgES2016, {
+      // @ts-ignore
+      entry: {
+        app: "./src/index.es2016.tsx",
+      },
+      plugins: [new GenerateIndexHTML(env)],
+    }) as AnyObject;
+
+    cfgES2016 = env.NODE_ENV === "production" 
+      ? merge(cfgES2016 as object, prodConfig) 
+      : cfgES2016;
+    
+    blablo.cleanLog("[webpack:config]".cyan, msgCompleted);
+    return cfgES2016;
   }
 
-  // for prod will add es2016 cfg
-  const envES2016 = { ...env, TS_TARGET: "es2016" };
-  let cfgES2016 = baseConfig(envES2016); // @ts-ignore
-  cfgES2016 = merge(cfgES2016, moduleConfig(envES2016)); // @ts-ignore
-  cfgES2016 = merge(cfgES2016, externalsConfig);
-  cfgES2016 = merge(cfgES2016, {
-    // @ts-ignore
-    entry: {
-      app: "./src/index.es2016.tsx",
-    },
-  });
-
-  let configs = [cfgES2022, cfgES2016];
+  let configs = [cfgES2016, cfgES2022];
 
   // @ts-ignore
   configs = configs.map((cfg) => merge(cfg, prodConfig));

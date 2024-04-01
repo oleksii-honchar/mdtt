@@ -1,4 +1,4 @@
-export * from "./AppConfig.d.ts";
+export * from './AppConfig.d.ts';
 
 declare global {
   const PKG_NAME: string;
@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-declare module "*.css" {
+declare module '*.css' {
   interface IClassNames {
     [className: string]: string;
   }
@@ -17,9 +17,10 @@ declare module "*.css" {
   export = classNames;
 }
 
-declare module "@ciklum/logan";
-
-export type StringIndex = Record<string, any>;
+declare module '@ciklum/logan';
+export interface AnyObject {
+  [key: string]: unknown;
+}
 
 export type NavigationItem = {
   name: string;

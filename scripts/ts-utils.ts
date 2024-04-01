@@ -1,15 +1,12 @@
-type PickInput = {
-  [key: string]: any;
-};
+export interface AnyObject {
+  [key: string]: unknown;
+}
 
-export function pick(
-  object: PickInput,
-  keys: string[]
-): Pick<PickInput, keyof PickInput> {
+export function pick<T, K extends keyof T>(object: T, keys: K[]): Partial<T> {
   return keys.reduce((obj, key) => {
-    if (object && object.hasOwnProperty(key)) {
+    if (object && Object.prototype.hasOwnProperty.call(object, key)) {
       obj[key] = object[key];
     }
     return obj;
-  }, {} as Pick<PickInput, keyof PickInput>);
+  }, {} as Partial<T>);
 }

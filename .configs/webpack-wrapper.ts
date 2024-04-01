@@ -12,11 +12,10 @@ import colors from "colors";
 import * as emoji from "node-emoji";
 import path from "path";
 
-import type { StringIndex } from "src/typings/index.d.ts";
+import type { AnyObject } from "src/typings/index.d.ts";
 import { pick } from "scripts/ts-utils.ts";
 import { blablo } from "blablo";
 import { getRootRepoDir, setCurrMetaUrl } from "scripts/esm-utils.ts";
-import { nl } from "src/utils/native-lodash.ts";
 
 setCurrMetaUrl(import.meta.url);
 colors.enable();
@@ -38,22 +37,27 @@ const argv = {
 // additional env vars can be passed through Webpack "--env VAR=VALUE" param
 // for every VAR needs to be used new --env param, e.g. "--env VAR1=V1 --env VAR2=V2"
 argv.env = Array.isArray(argv.env) ? argv.env : [argv.env]; // when single param provided it is string, not array
-const customEnv = argv.env.reduce((acc: StringIndex, curr: string) => {
+const customEnv = argv.env.reduce((acc: AnyObject, curr: string) => {
   const [key, value] = curr.split("=");
   acc[key] = value;
   return acc;
 }, {});
 
-const env: StringIndex = {
+/*
+  customEnv could be:
+  - BUILD_LEGACY: bool - build only ES2016 compatible code
+  - TS_LOADER: "esbuild" | "ts-loader"
+*/
+const env: AnyObject = {
   LAUNCH_PROD_SERVER: process.env.NODE_ENV === "production" && !!argv.launchServer,
   ...customEnv,
-  ...pick(process.env, ["NODE_ENV", "BUILD_ANALYZE", "TS_LOADER", "LOG_LEVEL", "SERVE_PORT"]),
+  ...pick(process.env, ["NODE_ENV", "BUILD_ANALYZE", "LOG_LEVEL", "TS_LOADER", "SERVE_PORT"]),
 };
 
 // Let's check if proper ts-TS_LOADER used
 if (env.TS_LOADER) {
   const validTSLoaders = ["esbuild", "ts-loader"];
-  const valueIndex = validTSLoaders.indexOf(env.TS_LOADER);
+  const valueIndex = validTSLoaders.indexOf(env.TS_LOADER as string);
   if (valueIndex === -1) {
     blablo.error(`You have to use following options for TS_LOADER: ${validTSLoaders.join(", ")}`.red);
     process.exit(1);

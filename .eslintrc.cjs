@@ -7,7 +7,7 @@ module.exports = {
     errorOnUnknownASTType: true,
     errorOnTypeScriptSyntacticAndSemanticIssues: true,
     sourceType: "module",
-    project: "./tsconfig.json",
+    project: ["./tsconfig.json", "./.confgis/tsconfig.json", "tsconfig.es2022"],
     tsconfigRootDir: __dirname,
   },
   extends: [
@@ -56,7 +56,6 @@ module.exports = {
     ],
     "react/no-unknown-property": ["error", { "ignore": ["css"] }],
     "react/react-in-jsx-scope": 0,
-    
   },
   env: {
     browser: true,

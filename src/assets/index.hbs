@@ -41,7 +41,11 @@
 </head>
 <body>
     <div id="app-root"></div>
-    <script type="module" src="/assets/app.bundle.mjs"></script>
-    <script nomodule src="/assets/app.bundle.es2016.js"></script>
+    {{#if BUILD_LEGACY}}
+      <script src="/assets/app.bundle.es2016.js"></script>
+    {{else}}
+      <script type="module" src="/assets/app.bundle.mjs"></script>
+      <script nomodule src="/assets/app.bundle.es2016.js"></script>
+    {{/if}}
 </body>
 </html>

@@ -3,10 +3,10 @@ import { useContext } from "react";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "src/components/Tooltip.tsx";
 import { ClipboardContext } from "src/contexts/ClipboardContext";
-import type { StringIndex } from "src/typings/index.d.ts";
+import type { AnyObject } from "src/typings/index.d.ts";
 import { classNames } from "src/utils/classNames.ts";
 
-export function ColorHashText({ color, toShowOnHover }: StringIndex) {
+export function ColorHashText({ color, toShowOnHover }: AnyObject) {
   return (
     <div
       className={classNames(
@@ -23,7 +23,7 @@ export function ColorHashText({ color, toShowOnHover }: StringIndex) {
   );
 }
 
-export function ColorShadeName({ shadeName, toShowOnHover }: StringIndex) {
+export function ColorShadeName({ shadeName, toShowOnHover }: AnyObject) {
   return (
     <div
       className={classNames(
@@ -39,7 +39,7 @@ export function ColorShadeName({ shadeName, toShowOnHover }: StringIndex) {
   );
 }
 
-export function KeyColor({ name, textColor, bgColor, colorHash, tokenPath }: StringIndex) {
+export function KeyColor({ name, textColor, bgColor, colorHash, tokenPath }: AnyObject) {
   const { content, setContent } = useContext(ClipboardContext);
 
   const style = css`
@@ -72,17 +72,17 @@ export function KeyColor({ name, textColor, bgColor, colorHash, tokenPath }: Str
   );
 }
 
-export function PaletteColorPair({ colorPair }: StringIndex) {
+export function PaletteColorPair({ colorPair }: AnyObject) {
   return (
     <div className="flex flex-col w-full">
-      {colorPair.map((color: StringIndex, idx: number) => (
+      {colorPair.map((color: AnyObject, idx: number) => (
         <PaletteColor key={`col-pair-${idx}`} {...color} />
       ))}
     </div>
   );
 }
 
-export function PaletteColor({ name, textColor, bgColor, colorHash, shadeName, tokenPath }: StringIndex) {
+export function PaletteColor({ name, textColor, bgColor, colorHash, shadeName, tokenPath }: AnyObject) {
   const { content, setContent } = useContext(ClipboardContext);
 
   const style = css`
@@ -118,7 +118,7 @@ export function PaletteColor({ name, textColor, bgColor, colorHash, shadeName, t
   );
 }
 
-export function ColorShade({ name, textColor, bgColor, colorHash, shadeName, tokenPath }: StringIndex) {
+export function ColorShade({ name, textColor, bgColor, colorHash, shadeName, tokenPath }: AnyObject) {
   const { content, setContent } = useContext(ClipboardContext);
 
   const style = css`
@@ -157,10 +157,10 @@ export function ColorShade({ name, textColor, bgColor, colorHash, shadeName, tok
   );
 }
 
-export function PaletteColorCol({ colorCol }: StringIndex) {
+export function PaletteColorCol({ colorCol }: AnyObject) {
   return (
     <div className="flex flex-col w-full gap-2">
-      {colorCol.map((colorPair: StringIndex, idx: number) => (
+      {colorCol.map((colorPair: AnyObject, idx: number) => (
         <PaletteColorPair key={`col-pair-${idx}`} colorPair={colorPair} />
       ))}
     </div>

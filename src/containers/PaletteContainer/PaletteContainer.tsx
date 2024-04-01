@@ -3,7 +3,7 @@ import joi from 'joi';
 import { useAtomValue } from 'jotai';
 import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import type { StringIndex } from 'src/typings/index.d.ts';
+import type { AnyObject } from 'src/typings/index.d.ts';
 
 import { nl } from 'src/utils/native-lodash.ts';
 
@@ -25,7 +25,7 @@ export default function PaletteContainer() {
   const theme = useAtomValue(themeAtom);
 
   function processFileContent(content: string) {
-    let mdTokensJson: StringIndex = {};
+    let mdTokensJson: AnyObject = {};
     try {
       mdTokensJson = JSON.parse(content);
       mdTokensJson = joi.attempt(mdTokensJson, mdTailwindThemeSchema);

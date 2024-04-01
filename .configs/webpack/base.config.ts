@@ -56,7 +56,10 @@ export const baseConfig = (env: any = {}) => {
   ];
 
   return {
-    stats: "minimal",
+    stats: {
+      "errorDetails" : true,
+      "errors" : true,
+    },
     mode: env.NODE_ENV,
     cache: true,
     devtool: env.NODE_ENV === "production" ? false : "inline-source-map",

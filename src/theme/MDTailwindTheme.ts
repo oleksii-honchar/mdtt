@@ -10,7 +10,7 @@ import {
 } from '@material/material-color-utilities';
 
 import { mdTailwindThemeSchema } from 'src/theme/mdTailwindThemeSchema';
-import { StringIndex } from 'src/typings';
+import type { AnyObject } from 'src/typings';
 
 import { nl } from 'src/utils/native-lodash.ts';
 
@@ -144,7 +144,7 @@ export class MDTailwindTheme {
 
     const isBlack = Object.values(coreColors).every((color) => color === '#000000');
 
-    const coreColorsCodes: StringIndex = {
+    const coreColorsCodes: AnyObject = {
       'primary': 'a1',
       'secondary': 'a2',
       'tertiary': 'a3',

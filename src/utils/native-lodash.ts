@@ -1,6 +1,3 @@
-export interface AnyObject {
-  [key: string]: unknown;
-}
 
 function pick<T, K extends keyof T>(object: T, keys: K[]): Partial<T> {
   return keys.reduce((obj, key) => {

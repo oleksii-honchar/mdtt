@@ -1,7 +1,7 @@
-import { StringIndex } from "src/typings";
+import type { AnyObject } from "src/typings";
 import { nl } from "src/utils/native-lodash.ts";
 
-export const secondaryShadesFrom = (tokens: StringIndex) => [
+export const secondaryShadesFrom = (tokens: AnyObject) => [
   {
     tokenPath: "md-ref-pal-secondary900",
     bgColor: nl.get(tokens, "colors.md.ref.pal.secondary900"),

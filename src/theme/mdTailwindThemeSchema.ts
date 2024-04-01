@@ -1,9 +1,9 @@
 import joi from 'joi';
-import type { StringIndex } from 'src/typings/index.d.ts';
+import type { AnyObject } from 'src/typings/index.d.ts';
 
-function getRefPalDefs(colorName: string): StringIndex {
+function getRefPalDefs(colorName: string): AnyObject {
   const colorShadeCodes = [900, 800, 700, 600, 500, 400, 300, 200, 100, 50, 20, 10];
-  const data: StringIndex = {};
+  const data: AnyObject = {};
   colorShadeCodes.forEach((code) => (data[`${colorName}${code}`] = joi.string()));
   return data;
 }

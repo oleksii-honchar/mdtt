@@ -1,7 +1,7 @@
-import { StringIndex } from 'src/typings';
+import type { AnyObject } from 'src/typings';
 import { nl } from 'src/utils/native-lodash.ts';
 
-export const sysDarkColorsFrom = (tokens: StringIndex) => [
+export const sysDarkColorsFrom = (tokens: AnyObject) => [
   [
     [
       {

@@ -1,7 +1,7 @@
-import { StringIndex } from 'src/typings';
+import type { AnyObject } from 'src/typings';
 import { nl } from 'src/utils/native-lodash.ts';
 
-export const neutralLightShadesFrom = (tokens: StringIndex) => [
+export const neutralLightShadesFrom = (tokens: AnyObject) => [
   {
     name: 'Scrim',
     tokenPath: 'md-sys-light-scrim',

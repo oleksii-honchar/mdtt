@@ -1,7 +1,7 @@
-import { StringIndex } from 'src/typings';
+import type { AnyObject } from 'src/typings';
 import { nl } from 'src/utils/native-lodash.ts';
 
-export const neutralVShadesFrom = (tokens: StringIndex) => [
+export const neutralVShadesFrom = (tokens: AnyObject) => [
   {
     tokenPath: 'md-ref-pal-neutral-variant900',
     bgColor: nl.get(tokens, 'colors.md.ref.pal.neutral-variant900'),

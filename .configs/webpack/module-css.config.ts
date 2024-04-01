@@ -25,46 +25,72 @@ export const cssModuleConfig = (env: any) => {
     },
   };
 
+  const cssConfigFull = {
+    test: /\.css$/,
+    include: /src\/assets/,
+    use: [
+      customLoader,
+      {
+        loader: "css-loader",
+      },
+    ],
+  }
+
+  const cssConfigNull = {
+    test: /\.css$/i,
+    include: /src\/assets/,
+    use: [{
+      loader: 'null-loader'
+    }]
+  } 
+
+  const pcssConfigFull = {
+    test: /\.pcss$/i,
+    exclude: /src\/assets/,
+    use: [
+      customLoader,
+      {
+        loader: "css-loader",
+        options: {
+          modules: false, // true cause to obfuscation
+          importLoaders: 1,
+        },
+      },
+      {
+        loader: "postcss-loader",
+        options: {
+          postcssOptions: {
+            ctx: {
+              env: env.NODE_ENV,
+            },
+            config: postCssConfigPath,
+          },
+        },
+      },
+    ],
+  }
+
+  const pcssConfigNull = {
+    test: /\.pcss$/i,
+    exclude: /src\/assets/,
+    use: [{
+      loader: 'null-loader'
+    }]
+  } 
+
+  const rules = [
+    (env.TS_TARGET == "es2016" && env.BUILD_LEGACY != "true") 
+      ? cssConfigNull 
+      : cssConfigFull,
+    (env.TS_TARGET == "es2016" && env.BUILD_LEGACY != "true") 
+      ? pcssConfigNull 
+      : pcssConfigFull
+  ]
+
+  // blablo.cleanLog(JSON.stringify(rules));
+
   return {
     plugins: [...(env.LAUNCH_PROD_SERVER ? [] : plugins)],
-    module: {
-      rules: [
-        {
-          test: /\.css$/,
-          include: /src\/assets/,
-          use: [
-            customLoader,
-            {
-              loader: "css-loader",
-            },
-          ],
-        },
-        {
-          test: /\.pcss$/i,
-          exclude: /src\/assets/,
-          use: [
-            customLoader,
-            {
-              loader: "css-loader",
-              options: {
-                modules: false, // true cause to obfuscation
-                importLoaders: 1,
-              },
-            },
-            {
-              loader: "postcss-loader",
-              options: {
-                postcssOptions: {
-                  ctx: {
-                    env: env.NODE_ENV,
-                  },
-                  config: postCssConfigPath,
-                },
-              },
-            },
-          ],
-        },
-      ],
-    },
+    module: { rules },
   };
 };

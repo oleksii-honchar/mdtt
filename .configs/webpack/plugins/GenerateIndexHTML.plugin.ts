@@ -3,13 +3,15 @@ import webpack from "webpack";
 import colors from "colors";
 import { generateIndexHtml } from "../libs/generateIndexHtml.ts";
 import { blablo } from "blablo";
+import type { AnyObject } from "scripts/ts-utils.ts";
 
 const { Compilation, sources } = webpack;
 
 colors.enable();
 export default class GenerateIndexHTML {
-  env = [];
-  constructor(env: any = {}) {
+  env: AnyObject;
+  
+  constructor(env: AnyObject) {
     this.env = env;
   }
   apply(compiler: any) {
