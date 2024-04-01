@@ -71,6 +71,7 @@ build-loc: clean-dist  ## Build local version
 build-loc-analyze:  ## Build local and analyze bundle content
 	$(MAKE) build-loc BUILD_ANALYZE=true
 
+# will watch and build sources
 launch-loc-server:  ## Launches local Webpack dev-server
 	@printf "${BG_GREY}[launch-loc-server] Start${NC}\n"
 	@source ${envFileLoc}
@@ -82,7 +83,8 @@ launch-loc-server:  ## Launches local Webpack dev-server
 
 	@printf "${BG_GREY}[launch-loc-server] DONE${NC}\n"
 
-launch-prod-server:  ## Launches local Webpack dev-server
+# Will use PRE-BUILT sources. Use it for check prod build
+launch-prod-server:  ## Launches local Webpack static-server
 	@printf "${BG_GREY}[launch-prod-server] Start${NC}\n"
 	@source ${envFileProd}
 	@npx env-cmd -f $(envFileProd) node --no-warnings --experimental-specifier-resolution=node \
