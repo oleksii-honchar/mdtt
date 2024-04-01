@@ -27,18 +27,17 @@ export default function postCssConfig(params: { file: any; options: AnyObject; e
 
   let cssNanoCfg: any = null;
   if (params.env === "production") {
-    // const mdlCssNano = require("cssnano");
-    // cssNanoCfg = mdlCssNano({
-    //   preset: [
-    //     "default",
-    //     {
-    //       discardComments: {
-    //         removeAll: true,
-    //       },
-    //     },
-    //   ],
-    // });
-    cssNanoCfg = require("postcss-discard-comments");
+    const mdlCssNano = require("cssnano");
+    cssNanoCfg = mdlCssNano({
+      preset: [
+        "default",
+        {
+          discardComments: {
+            removeAll: true,
+          },
+        },
+      ],
+    });
   } else {
     cssNanoCfg = require("postcss-discard-comments");
   }
@@ -50,6 +49,7 @@ export default function postCssConfig(params: { file: any; options: AnyObject; e
       tailwind,
       postCssPresetEnv,
       cssNanoCfg,
+      // actually don't need it sofar - since TW purge unused CSS on it's own
       // params.env === "production" ? purgeCssConfig : false, - still misses TailwindCSS
     ],
   };
