@@ -3,6 +3,8 @@ import { Dialog, Transition } from '@headlessui/react';
 import PropTypes, { InferProps } from 'prop-types';
 import { Fragment } from 'react';
 
+import { HelpContent } from './HelpContent';
+
 HelpModalDialog.propTypes = {
   isOpen: PropTypes.bool,
   setIsOpen: PropTypes.func,
@@ -52,26 +54,7 @@ export function HelpModalDialog(props: InferProps<typeof HelpModalDialog.propTyp
                 >
                   How to use
                 </Dialog.Title>
-                <div className="px-4 py-3 text-base">
-                  <ul className="list-decimal">
-                    <li>
-                      Generate tokens file with &nbsp;
-                      <a target="_blank" href="https://github.com/oleksii-honchar/mdpal" rel="noreferrer">
-                        mdpal
-                      </a>
-                    </li>
-                    <li>Add it to `src/stylesheets/mdpal-tokens.ts`</li>
-                    <li> `npm run launch:loc`</li>
-                  </ul>
-                  <br />
-                  <p>
-                    Please visit MDTEX github page for more details (
-                    <a target="_blank" href="https://github.com/oleksii-honchar/mdtex" rel="noreferrer">
-                      link
-                    </a>
-                    )
-                  </p>
-                </div>
+                <HelpContent />
                 <div
                   className={`
                     flex flex-grow items-center justify-center
