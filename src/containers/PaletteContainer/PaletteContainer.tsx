@@ -15,14 +15,15 @@ import PalettePlaceholder from './components/PalettePlaceholder.tsx';
 import { useDebouncedEffect } from 'src/hooks/useDebouncedEffect.ts';
 
 import { themeAtom } from 'src/state/color-atoms.ts';
+import { MDTailwindThemeJson } from 'src/theme/MDTailwindTheme.ts';
 
 const logger = new LoggerService();
 logger.setTitle('PaletteContainer');
 
 export default function PaletteContainer() {
   const { file } = useContext(FileContext);
-  const [mdTokens, setMdTokens] = useState({});
   const theme = useAtomValue(themeAtom);
+  const [mdTokens, setMdTokens] = useState(theme);
 
   function processFileContent(content: string) {
     let mdTokensJson: AnyObject = {};
@@ -32,7 +33,7 @@ export default function PaletteContainer() {
       const msg = 'MD Tokens parsed and applied';
       logger.debug(msg);
       // toast.success(msg);
-      setMdTokens(mdTokensJson);
+      setMdTokens(mdTokensJson as unknown as MDTailwindThemeJson);
     } catch (err) {
       logger.error(err);
       toast.error(`File schema validation failed: ${(err as Error).message}`);

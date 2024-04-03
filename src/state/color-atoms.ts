@@ -1,6 +1,7 @@
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import { MDTailwindThemeJson } from 'src/theme/MDTailwindTheme';
+import { atomWithLocalStorage } from './atomWithLocalStorage';
 
 const initialColor = ''; //empty
 
@@ -33,4 +34,4 @@ export const coreColorsAtom = atom(
   },
 );
 
-export const themeAtom = atomWithStorage<MDTailwindThemeJson>('theme', {} as MDTailwindThemeJson);
+export const themeAtom = atomWithLocalStorage<MDTailwindThemeJson>('theme', {} as MDTailwindThemeJson);
