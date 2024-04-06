@@ -1,0 +1,11 @@
+node_modules
+dist
+.history
+.vscode
+.github/
+.git/
+.gitignore
+Dockerfile.*
+*.code-workspace
+
+.gitlab-ci.yml

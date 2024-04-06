@@ -1,4 +1,10 @@
-FROM tuiteraz/jaba-static:3.0.1
+FROM tuiteraz/jaba-build:3.0.4 as build
+WORKDIR /var/tmp
+COPY . . 
+RUN npm install
+RUN make build
+
+FROM tuiteraz/jaba-static:3.0.4
 
 ARG LATEST_VERSION
 ARG IMAGE_NAME
@@ -6,7 +12,7 @@ ENV LATEST_VERSION1=$LATEST_VERSION
 ENV IMAGE_NAME1=$IMAGE_NAME
 
 RUN rm -rf /etc/nginx/www-data
-COPY ./dist /etc/nginx/www-data
+COPY --from=build /var/tmp/dist /etc/nginx/www-data
 
 EXPOSE 80
 

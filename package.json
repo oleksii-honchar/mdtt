@@ -119,6 +119,6 @@
     "webpack-merge": "5.10.0"
   },
   "engines": {
-    "node": "21"
+    "node": "20"
   }
 }

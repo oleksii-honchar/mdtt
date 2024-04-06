@@ -110,9 +110,13 @@ install-tools: ## install ncu for new node version
 	npm i -g markdown-toc
 	brew install jq
 
-# make build - composes docker image, without actually building sources
-docker-build: ## build image
-	@docker build --no-cache --load --build-arg LATEST_VERSION=$(LATEST_VERSION) --build-arg IMAGE_NAME=$(IMAGE_NAME) -t $(IMAGE_NAME):$(LATEST_VERSION) .
+# make docker-build - composes docker image, without actually building sources
+docker-build: ## build image and sources using jaba-build
+	@docker build -f Dockerfile.build --load --build-arg LATEST_VERSION=$(LATEST_VERSION) --build-arg IMAGE_NAME=$(IMAGE_NAME) -t $(IMAGE_NAME):$(LATEST_VERSION) .
+
+# make docker-build-static - composes docker image, without actually building sources
+docker-build-static: ## build jaba-static image based on existing ./dist
+	@docker build -f Dockerfile.static --no-cache --load --build-arg LATEST_VERSION=$(LATEST_VERSION) --build-arg IMAGE_NAME=$(IMAGE_NAME) -t $(IMAGE_NAME):$(LATEST_VERSION) .
 
 .ONESHELL:
 docker-up-loc: ## docker up static image resolver
