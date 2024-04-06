@@ -12,7 +12,7 @@ export default function AboutPage() {
           bg-md-sys-light-surface-container-lowest
         `}
       >
-        <h1 className="text-3xl font-medium mt-4 mb-4">Material Design Tailwind Tokens</h1>
+        <h1 className="text-3xl font-medium mt-4 mb-4">Material Design TailwindCSS Toolkit</h1>
         <div className="w-full flex flex-col items-start space-y-2">
           <h2 className="text-2xl font-medium">TL;DR</h2>
           <p>

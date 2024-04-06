@@ -10,7 +10,7 @@ export function Logo() {
             filter: hue-rotate(90deg);
           `}
           className="h-8 w-auto"
-          src="/assets/images/mdtt-2.svg"
+          src="/assets/images/mdtt-11.svg"
           alt="IAmAMaze.me"
         />
       </Link>

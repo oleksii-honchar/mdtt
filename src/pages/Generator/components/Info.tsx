@@ -8,7 +8,7 @@ export default function Info() {
           text-md-sys-light-shadow
         `}
     >
-      <h1 className="text-3xl font-medium mt-4 mb-4">Material Design Tailwind Tokens</h1>
+      <h1 className="text-3xl font-medium mt-4 mb-4">Material Design TailwindCSS Toolkit</h1>
       <div className="w-full flex flex-col items-center space-y-1">
         <p>
           One cannot bypass making decisions about colors and palettes when developing UI/UX. What should the color of
