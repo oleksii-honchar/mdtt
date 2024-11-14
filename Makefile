@@ -127,6 +127,10 @@ docker-up-loc: ## docker up static image resolver
 docker-down: ## docker down static image resolver
 	@docker stop $(CONTAINER_NAME)
 
+docker-push: ## push latest image to docker hub
+	@docker push docker.io/$(IMAGE_NAME):$(LATEST_VERSION)
+	@docker push docker.io/$(IMAGE_NAME):latest
+
 # make tag-latest
 tag-latest: ## tag  image as latest
 	@docker tag $(IMAGE_NAME):$(LATEST_VERSION) $(IMAGE_NAME):latest
